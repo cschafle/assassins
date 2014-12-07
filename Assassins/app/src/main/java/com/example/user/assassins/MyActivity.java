@@ -27,10 +27,12 @@ public class MyActivity extends Activity implements View.OnClickListener{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.my, menu);
         Button joinGame = (Button) findViewById(R.id.joinGame);
+        Button hostGame = (Button) findViewById(R.id.hostGame);
+        //set onClickListener to listen for join game
         joinGame.setOnClickListener(this);
+        hostGame.setOnClickListener(this);
         return true;
     }
 
@@ -49,10 +51,14 @@ public class MyActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+        //the if myActivity prevents myActivity buttons from being clicked inside fragments
         if (myActivity) {
             Fragment fragment = null;
             if (view == findViewById(R.id.joinGame)) {
                 fragment = new PlayerHomeFrag();
+            }
+            if (view == findViewById(R.id.hostGame)) {
+                fragment = new HostGame();
             }
             if (fragment != null) {
                 myActivity = false;
