@@ -5,8 +5,10 @@ package li.allen.cs160.assassins;
  */
 
 import android.app.Application;
+
 import com.parse.Parse;
 import com.parse.PushService;
+
 
 
 public class App extends Application {
@@ -16,5 +18,7 @@ public class App extends Application {
 
         Parse.initialize(this, "0bMsRllZl4dgRrUPcNOrlT35fNfR8zI9NmS13sqe", "Pia0mwfgSXEvXenldjW9I9124TJbCf7Z222GPFWg");
         PushService.setDefaultPushCallback(this, MainActivity.class);
+
+
     }
 }
