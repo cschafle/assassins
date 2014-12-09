@@ -9,11 +9,14 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 
 public class MainActivity extends Activity {
 
@@ -47,6 +50,37 @@ public class MainActivity extends Activity {
 
     }
 
+    //Creates game as a parseObject
+    public void create(View view) {
+
+        EditText gameName = (EditText) findViewById(R.id.gameName);
+        String sGameName = gameName.getText().toString();
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String creator = currentUser.getUsername();
+
+        ParseObject game = new ParseObject("Game");
+        game.put("gameName", sGameName);
+        if (individual) {
+            game.put("gameMode", "individual");
+        }
+        else {
+            game.put("gameMode", "team");
+        }
+        if (day) {
+            game.put("reshuffle", "day");
+        }
+        else if (threeDays) {
+            game.put("reshuffle", "threeDays");
+        }
+        else {
+            game.put("reshuffle", "week");
+        }
+        game.put("advanced", "off");
+        game.put("creator", creator);
+        game.saveInBackground();
+    }
+
     //Logs user out and returns to welcome Fragment
     public void logout(View view) {
         ParseUser.logOut();
@@ -57,6 +91,7 @@ public class MainActivity extends Activity {
 
     }
 
+    //Calls gameCreationFragment
     public void createGame(View view) {
         GameCreationFragment createGame = new GameCreationFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -98,6 +133,12 @@ public class MainActivity extends Activity {
         threeDays = false;
     }
 
+    //Sets reshuffle time to never
+    public void never(View view) {
+        week = false;
+        day = false;
+        threeDays = false;
+    }
 
     //Calls LoginFragment login method
     public void signUp(View view) {

@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
+            android:id="@+id/gameName"
             />
 
     </LinearLayout>
@@ -70,22 +71,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:orientation="horizontal">
-            <RadioButton
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="24 hrs"
-                android:onClick="dayOn"/>
-            <RadioButton
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="24 hrs"
+                    android:onClick="dayOn"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3 days"
+                    android:onClick="threeDaysOn"/>
+
+                </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3 days"
-                android:onClick="threeDaysOn"/>
-            <RadioButton
+                android:layout_height="wrap_content">
+
+                <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1 week"
                 android:onClick="weekOn"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Never"
+                    android:onClick="never"/>
+
+            </LinearLayout>
+
         </RadioGroup>
 
 
@@ -145,5 +167,18 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="create"
+            android:text="Create"/>
+
+        </LinearLayout>
 
 </LinearLayout>
