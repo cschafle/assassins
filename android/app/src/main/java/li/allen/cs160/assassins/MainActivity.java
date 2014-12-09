@@ -10,6 +10,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -25,6 +26,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.LinkedHashSet;
 
+import com.parse.Parse;
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -61,18 +63,41 @@ public class MainActivity extends Activity {
             fragmentTransaction.replace(R.id.container, welcome, "welcome");
             fragmentTransaction.commit();
         }
-
-
-
     }
 
-    //Join game
+    //Goes to game user is currently in if any
+    public void goToGame(View view) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        try {
+            currentUser.fetch();
+        }
+        catch (ParseException e) {
+
+        }
+        // Disables status button (does nothing)
+        String currentGame = currentUser.getString("game");
+
+        if (currentGame == null || currentGame == "") {
+            Log.d("goToGame->currentGame", "No Game");
+        }
+        else {
+
+//            Log.d("goToGame->currentGame", currentGame.toString());
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            StatusFragment status = new StatusFragment();
+            fragmentTransaction.replace(R.id.container, status, "status");
+            fragmentTransaction.addToBackStack("status");
+            fragmentTransaction.commit();
+        }
+    }
+
+    //Join game from games where user has been invited
     public void joinGame(View view) {
 
         final ListView listView = (ListView) findViewById(R.id.gameList);
 
         int id = listView.getCheckedItemPosition();
-        final String gameName = listView.getItemAtPosition(id).toString();
+        final String gameName = (String) listView.getItemAtPosition(id);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseUser> query = ParseUser.getQuery();

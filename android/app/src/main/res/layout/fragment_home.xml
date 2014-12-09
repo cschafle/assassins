@@ -71,6 +71,7 @@
             android:layout_height="wrap_content"
             android:onClick="goToGame"
             android:layout_weight="1"
+            android:id="@+id/statusBtn"
             android:text="Status"/>
 
 
