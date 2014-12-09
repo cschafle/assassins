@@ -7,6 +7,7 @@ package li.allen.cs160.assassins;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.PushService;
 
 

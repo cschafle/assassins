@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.util.Log;
 import java.util.ArrayList;
 
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -39,9 +40,14 @@ public class StatusFragment extends Fragment {
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_status, container, false);
 
+        // Gets current user and sets Textview to user
         final ParseUser currentUser = ParseUser.getCurrentUser();
         TextView home = (TextView) layout.findViewById(R.id.gameStatus_username);
         home.setText(currentUser.getUsername());
+
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user", currentUser.getUsername());
+        installation.saveInBackground();
 
         TextView gameNameText = (TextView) layout.findViewById(R.id.gameStatus_gameName);
         gameNameText.setText(currentUser.getString("game"));

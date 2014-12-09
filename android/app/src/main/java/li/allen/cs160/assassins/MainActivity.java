@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.content.Intent;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ import java.util.Set;
 import java.util.LinkedHashSet;
 
 import com.parse.Parse;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -47,12 +50,21 @@ public class MainActivity extends Activity {
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        Intent i = getIntent();
+        String extra = i.getStringExtra("fragment");
+
         setContentView(R.layout.activity_main);
         fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
+
+        if (extra != null && extra.equalsIgnoreCase("status")){
+            StatusFragment status = new StatusFragment();
+            fragmentTransaction.replace(R.id.container, status, "status");
+            fragmentTransaction.commit();
+        }
+        else if (currentUser != null) {
             HomeFragment home = new HomeFragment();
             fragmentTransaction.replace(R.id.container, home, "home");
             fragmentTransaction.commit();
@@ -63,6 +75,24 @@ public class MainActivity extends Activity {
             fragmentTransaction.replace(R.id.container, welcome, "welcome");
             fragmentTransaction.commit();
         }
+    }
+
+
+    //Kill function sends notification and if accepted then alters playerList
+    public void killTarget(View view) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        String currentUserName = currentUser.getUsername();
+
+        TextView targetNameText = (TextView) findViewById(R.id.gameStatus_target);
+
+        ParseQuery pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereEqualTo("user", "MasonIII");
+
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery);
+        push.setMessage("You have been assassinated!");
+        push.sendInBackground();
+
     }
 
     //Goes to game user is currently in if any
