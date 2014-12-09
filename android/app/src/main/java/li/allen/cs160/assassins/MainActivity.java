@@ -36,6 +36,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 
 
 
@@ -77,15 +78,58 @@ public class MainActivity extends Activity {
         }
     }
 
+    //
+
+    //Confirms death after receiving push notification
+    public void confirmDeath(View view) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ParseQuery<ParseObject> queryGame = ParseQuery.getQuery("Game");
+        queryGame.whereEqualTo("gameName", currentUser.getString("game"));
+        ParseObject currGame = null;
+        try {
+            ArrayList<ParseObject> games = (ArrayList<ParseObject>) queryGame.find();
+            currGame = games.get(0);
+        }
+        catch (ParseException e) {}
+
+        ParseQuery<ParseUser> queryUser = ParseUser.getQuery();
+        queryUser.whereEqualTo("killPending", currentUser.getUsername());
+        try {
+            ArrayList<ParseUser> killerList = (ArrayList<ParseUser>) queryUser.find();
+            ParseUser killer = killerList.get(0);
+            int killerKills = killer.getInt("kills");
+            killer.put("kills", killerKills+1);
+            killer.put("killPending", "");
+            killer.saveInBackground();
+
+            currentUser.put("available", true);
+            currentUser.put("game", "");
+            currentUser.saveInBackground();
+
+            ArrayList<String> players = (ArrayList<String>) currGame.get("playerList");
+            Log.d("confirmDeath", players.toString());
+            players.remove(currentUser.getUsername());
+            currGame.put("playerList", players);
+            currGame.saveInBackground();
+
+        }
+        catch (ParseException e) {}
+
+    }
 
     //Kill function sends notification and if accepted then alters playerList
+    //NEED TO CHANGE SOMETHING IN THIS AFTER TESTING PHASE IS OVER
     public void killTarget(View view) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        String currentUserName = currentUser.getUsername();
 
         TextView targetNameText = (TextView) findViewById(R.id.gameStatus_target);
 
+        currentUser.put("killPending", targetNameText.getText().toString());
+        currentUser.saveInBackground();
+
         ParseQuery pushQuery = ParseInstallation.getQuery();
+        //REMEMBER TO CHANGE THE TARGET TO TARGETNAMETEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         pushQuery.whereEqualTo("user", "MasonIII");
 
         ParsePush push = new ParsePush();
@@ -107,7 +151,7 @@ public class MainActivity extends Activity {
         // Disables status button (does nothing)
         String currentGame = currentUser.getString("game");
 
-        if (currentGame == null || currentGame == "") {
+        if (currentGame == null || currentGame.equalsIgnoreCase("")) {
             Log.d("goToGame->currentGame", "No Game");
         }
         else {
@@ -140,7 +184,18 @@ public class MainActivity extends Activity {
                     if ((Boolean) user.get("available")) {
                         user.put("available", false);
                         user.put("game", gameName);
-                        user.saveInBackground();
+                        user.put("kills", 0);
+                        try {
+                            user.save();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            StatusFragment status = new StatusFragment();
+                            fragmentTransaction.replace(R.id.container, status, "status");
+                            fragmentTransaction.addToBackStack("status");
+                            fragmentTransaction.commit();
+                        }
+                        catch (ParseException e2) {}
+
+
                     }
                 } else {
                     // Something went wrong.

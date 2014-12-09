@@ -89,6 +89,8 @@ public class LoginFragment extends Fragment {
 // other fields can be set just like with ParseObject
         user.put("First",sFirstName);
         user.put("Last", sLastName);
+        user.put("available", true);
+        user.put("kills", 0);
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
