@@ -78,7 +78,26 @@ public class MainActivity extends Activity {
         }
     }
 
-    //
+    //Deny death after receiving push notification
+    public void denyDeath(View view) {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        ParseQuery<ParseUser> queryUser = ParseUser.getQuery();
+        queryUser.whereEqualTo("killPending", currentUser.getUsername());
+        try {
+            ArrayList<ParseUser> killerList = (ArrayList<ParseUser>) queryUser.find();
+            ParseUser killer = killerList.get(0);
+            killer.put("killPending", "" );
+            killer.save();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            StatusFragment status = new StatusFragment();
+            fragmentTransaction.replace(R.id.container, status, "status");
+            fragmentTransaction.addToBackStack("status");
+            fragmentTransaction.commit();
+
+        }
+        catch (ParseException e) {}
+    }
 
     //Confirms death after receiving push notification
     public void confirmDeath(View view) {
