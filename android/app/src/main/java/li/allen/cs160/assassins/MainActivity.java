@@ -457,7 +457,7 @@ public class MainActivity extends Activity {
 
         ParseQuery pushQuery = ParseInstallation.getQuery();
         //REMEMBER TO CHANGE THE TARGET TO TARGETNAMETEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        pushQuery.whereEqualTo("user", "MasonIII");
+        pushQuery.whereEqualTo("user", targetNameText.getText().toString());
 
         ParsePush push = new ParsePush();
         push.setQuery(pushQuery);
