@@ -18,6 +18,7 @@ import com.parse.ParseException;
 public class MainActivity extends Activity {
 
     FragmentManager fragmentManager;
+    boolean individual; boolean team; boolean day; boolean threeDays; boolean week;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,54 @@ public class MainActivity extends Activity {
     //Logs user out and returns to welcome Fragment
     public void logout(View view) {
         ParseUser.logOut();
-        ParseUser currentUser = ParseUser.getCurrentUser();
         WelcomeFragment welcome = new WelcomeFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, welcome, "welcome");
         fragmentTransaction.commit();
 
     }
+
+    public void createGame(View view) {
+        GameCreationFragment createGame = new GameCreationFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, createGame, "createGame");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    //Sets individual true and team false
+    public void individualOn(View view) {
+        individual = true;
+        team = false;
+    }
+
+    //Sets team true and individual false
+    public void teamOn(View view) {
+        team = true;
+        individual = false;
+    }
+
+    //Sets reshuffle time to 1 day
+    public void dayOn(View view) {
+        day = true;
+        threeDays = false;
+        week = false;
+    }
+
+    //Sets reshuffle time to three days
+    public void threeDaysOn(View view) {
+        threeDays = true;
+        day = false;
+        week = false;
+    }
+
+    //Sets reshuffle time to 1 week
+    public void weekOn(View view) {
+        week = true;
+        day = false;
+        threeDays = false;
+    }
+
 
     //Calls LoginFragment login method
     public void signUp(View view) {

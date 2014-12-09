@@ -4,34 +4,33 @@ package li.allen.cs160.assassins;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
 import com.parse.FindCallback;
-import java.util.List;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.ArrayAdapter;
 import java.util.ArrayList;
+import java.util.List;
 import android.app.Activity;
-import android.widget.ListView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class HomeFragment extends Fragment {
+public class GameCreationFragment extends Fragment {
 
     View layout;
     Activity main;
 
-    public HomeFragment() {
+    public GameCreationFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +39,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        layout = inflater.inflate(R.layout.fragment_home, container, false);
-
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        TextView home = (TextView) layout.findViewById(R.id.home);
-        home.setText(currentUser.getUsername());
+        layout = inflater.inflate(R.layout.fragment_game_creation, container, false);
 
         main = this.getActivity();
 
@@ -73,14 +68,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
-
         return layout;
+
     }
-
-
-
 
 
 }
