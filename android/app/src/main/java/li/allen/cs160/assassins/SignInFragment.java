@@ -57,19 +57,19 @@ public class SignInFragment extends Fragment {
 
         ParseUser.logInInBackground(sUsername, sPassword, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    // Hooray! The user is logged in.
-                    Toast.makeText(getActivity(), "Login Accepted", Toast.LENGTH_SHORT).show();
+            if (user != null) {
+                // Hooray! The user is logged in.
+                Toast.makeText(getActivity(), "Login Accepted", Toast.LENGTH_SHORT).show();
 
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    HomeFragment home = new HomeFragment();
-                    fragmentTransaction.replace(R.id.container, home, "home");
-                    fragmentTransaction.commit();
-                } else {
-                    // Signup failed. Look at the ParseException to see what happened.
-                    Log.d("SignIn", "login()", e);
-                }
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                HomeFragment home = new HomeFragment();
+                fragmentTransaction.replace(R.id.container, home, "home");
+                fragmentTransaction.commit();
+            } else {
+                // Signup failed. Look at the ParseException to see what happened.
+                Log.d("SignIn", "login()", e);
+            }
             }
         });
     }

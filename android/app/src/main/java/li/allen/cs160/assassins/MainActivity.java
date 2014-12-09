@@ -72,7 +72,6 @@ public class MainActivity extends Activity {
     private final static String PREFS_FILE= "prefs_file";
     private final static String DECK_OF_CARDS_KEY= "deck_of_cards_key";
     private final static String DECK_OF_CARDS_VERSION_KEY= "deck_of_cards_version_key";
-
     private DeckOfCardsManager mDeckOfCardsManager;
     private RemoteDeckOfCards mRemoteDeckOfCards;
     private RemoteResourceStore mRemoteResourceStore;
@@ -131,79 +130,19 @@ public class MainActivity extends Activity {
         ListCard listCard= new ListCard();
         SimpleTextCard simpleTextCard= new SimpleTextCard("card0");
         listCard.add(simpleTextCard);
-
-        simpleTextCard = new SimpleTextCard("card1");
-        listCard.add(simpleTextCard);
-        simpleTextCard = new SimpleTextCard("card2");
-        listCard.add(simpleTextCard);
-        simpleTextCard = new SimpleTextCard("card3");
-        listCard.add(simpleTextCard);
-        simpleTextCard = new SimpleTextCard("card4");
-        listCard.add(simpleTextCard);
-        simpleTextCard = new SimpleTextCard("card5");
-        listCard.add(simpleTextCard);
-        simpleTextCard = new SimpleTextCard("card6");
-        listCard.add(simpleTextCard);
         return new RemoteDeckOfCards(this, listCard);
     }
 
-    // Read an image from assets and return as a bitmap
-    private Bitmap getBitmap(String fileName) throws Exception{
+    //Sends a notification of being assassinated
+    private void sendNotificationNewTarget() {
+        String[] message0 = new String[3];
 
-        try{
-            InputStream is= getAssets().open(fileName);
-            return BitmapFactory.decodeStream(is);
-        }
-        catch (Exception e){
-            throw new Exception("An error occurred getting the bitmap: " + fileName, e);
-        }
-    }
-
-//    private void setupUI() {
-//
-//
-//        findViewById(R.id.install_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                install();
-//            }
-//        });
-//
-//        findViewById(R.id.uninstall_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                uninstall();
-//            }
-//        });
-//
-//        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ToqActivity.this,MainActivity.class);
-//                ToqActivity.this.startActivity(intent);
-//            }
-//        });
-//
-//
-//    }
-
-    private void sendNotification() {
-        String[] message0 = new String[2];
-        String[] people = new String[6];
-        people[1] = "Art Goldberg";
-        people[2] = "Jack Weinberg";
-        people[3] = "Jackie Goldberg";
-        people[4] = "Joan Baez";
-        people[5] = "Mario Savio";
-        people[0] = "Michael Rossman";
-        Random rand = new Random();
-
-        message0[0] = "Please draw:";
-        message0[1] = people[rand.nextInt(6)];
+        message0[0] = "You have a new target";
+        message0[1] = "New target will be assigned momentarily";
         // Create a NotificationTextCard
 
         NotificationTextCard notificationCard = new NotificationTextCard(System.currentTimeMillis(),
-                "Free Speech Movement!", message0);
+                "Assassins", message0);
 
         // Draw divider between lines of text
         notificationCard.setShowDivider(true);
@@ -215,15 +154,14 @@ public class MainActivity extends Activity {
         try {
             // Send the notification
             mDeckOfCardsManager.sendNotification(notification);
-            Toast.makeText(this, "Sent Notification", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Sent Notification", Toast.LENGTH_SHORT).show();
         } catch (RemoteDeckOfCardsException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to send Notification", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Failed to send Notification", Toast.LENGTH_SHORT).show();
         }
     }
-    /**
-     * Installs applet to Toq watch if app is not yet installed
-     */
+
+    //Installs Toq Applet
     private void install() {
         boolean isInstalled = true;
         updateDeckOfCardsFromUI();
@@ -259,6 +197,7 @@ public class MainActivity extends Activity {
 
     }
 
+    //Uninstalls Toq Applet
     private void uninstall() {
         boolean isInstalled = true;
 
@@ -282,30 +221,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * Adds a deck of cards to the applet
-     */
-    private void addSimpleImageCard(Bitmap bitmap) {
-        ListCard listCard= mRemoteDeckOfCards.getListCard();
-
-        // Create a SimpleTextCard with 1 + the current number of SimpleTextCards
-        SimpleTextCard simpleTextCard= (SimpleTextCard)listCard.childAtIndex(6);
-        simpleTextCard.setHeaderText("FSM Art");
-//        mCardImages[6] = new CardImage("card.image.7", bitmap);
-//        mRemoteResourceStore.addResource(mCardImages[6]);
-//        simpleTextCard.setCardImage(mRemoteResourceStore, mCardImages[6]);
-
-        simpleTextCard.setReceivingEvents(true);
-        simpleTextCard.setShowDivider((true));
-
-        try {
-            mDeckOfCardsManager.updateDeckOfCards(mRemoteDeckOfCards, mRemoteResourceStore);
-        } catch (RemoteDeckOfCardsException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Failed to Create SimpleTextCard", Toast.LENGTH_SHORT).show();
-        }
-    }
-
+    //Get deckofcards
     private RemoteDeckOfCards getStoredDeckOfCards() throws Exception{
 
         if (!isValidDeckOfCards()){
@@ -335,8 +251,7 @@ public class MainActivity extends Activity {
         return deckOfCardsVersion >= Constants.VERSION_CODE;
     }
 
-
-
+    //Removes deck of cards
     private void removeDeckOfCards() {
         ListCard listCard = mRemoteDeckOfCards.getListCard();
         if (listCard.size() == 0) {
@@ -354,10 +269,7 @@ public class MainActivity extends Activity {
 
     }
 
-    /**
-     * Uses SharedPreferences to store the deck of cards
-     * This is mainly used to
-     */
+    //Uses shared preferences to store deck of cards
     private void storeDeckOfCards() throws Exception{
         // Retrieve and hold the contents of PREFS_FILE, or create one when you retrieve an editor (SharedPreferences.edit())
         SharedPreferences prefs = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
@@ -371,28 +283,11 @@ public class MainActivity extends Activity {
         editor.commit();
     }
 
-    //    Initialise
+    //Initialise
     private void init(){
 
         // Create the resource store for icons and images
         mRemoteResourceStore= new RemoteResourceStore();
-
-
-//        mCardImages = new CardImage[7];
-//        try{
-//            mCardImages[0]= new CardImage("card.image.1", getBitmap("art_goldberg_toq.png"));
-//            mCardImages[1]= new CardImage("card.image.2", getBitmap("jack_weinberg_toq.png"));
-//            mCardImages[2]= new CardImage("card.image.3", getBitmap("jackie_goldberg_toq.png"));
-//            mCardImages[3]= new CardImage("card.image.4", getBitmap("joan_baez_toq.png"));
-//            mCardImages[4]= new CardImage("card.image.5", getBitmap("mario_savio_toq.png"));
-//            mCardImages[5]= new CardImage("card.image.6", getBitmap("michael_rossman_toq.png"));
-//
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//            System.out.println("Can't get picture icon");
-//            return;
-//        }
 
         // Try to retrieve a stored deck of cards
         try {
@@ -411,37 +306,9 @@ public class MainActivity extends Activity {
         if (mRemoteDeckOfCards == null){
             mRemoteDeckOfCards = createDeckOfCards();
         }
-
-//        // Re-populate the resource store with any card images being used by any of the cards
-//        for (Iterator<Card> it= mRemoteDeckOfCards.getListCard().iterator(); it.hasNext();){
-//
-//            String cardImageId= ((SimpleTextCard)it.next()).getCardImageId();
-//
-//            if ((cardImageId != null) && !mRemoteResourceStore.containsId(cardImageId)){
-//
-//                if (cardImageId.equals("card.image.1")){
-//                    mRemoteResourceStore.addResource(mCardImages[0]);
-//                }
-//                if (cardImageId.equals("card.image.2")){
-//                    mRemoteResourceStore.addResource(mCardImages[1]);
-//                }
-//                if (cardImageId.equals("card.image.3")){
-//                    mRemoteResourceStore.addResource(mCardImages[2]);
-//                }
-//                if (cardImageId.equals("card.image.4")){
-//                    mRemoteResourceStore.addResource(mCardImages[3]);
-//                }
-//                if (cardImageId.equals("card.image.5")){
-//                    mRemoteResourceStore.addResource(mCardImages[4]);
-//                }
-//                if (cardImageId.equals("card.image.6")){
-//                    mRemoteResourceStore.addResource(mCardImages[5]);
-//                }
-//
-//            }
-//        }
     }
 
+    //Update DeckofCards
     private void updateDeckOfCardsFromUI() {
         if (mRemoteDeckOfCards == null) {
             mRemoteDeckOfCards = createDeckOfCards();
@@ -450,48 +317,10 @@ public class MainActivity extends Activity {
         int currSize = listCard.size();
         // Card #1
         SimpleTextCard simpleTextCard1= (SimpleTextCard)listCard.childAtIndex(0);
-        simpleTextCard1.setHeaderText("Art Goldberg");
-        simpleTextCard1.setTitleText("Draw: Now");
-//        simpleTextCard1.setCardImage(mRemoteResourceStore, mCardImages[0]);
+        simpleTextCard1.setHeaderText("Welcome to Assassins");
+        simpleTextCard1.setTitleText("They're everywhere");
         simpleTextCard1.setReceivingEvents(true);
         simpleTextCard1.setShowDivider(true);
-
-        SimpleTextCard simpleTextCard2= (SimpleTextCard)listCard.childAtIndex(1);
-        simpleTextCard2.setHeaderText("Jack Weinberg");
-        simpleTextCard2.setTitleText("Draw: FSM");
-//        simpleTextCard2.setCardImage(mRemoteResourceStore, mCardImages[1]);
-        simpleTextCard2.setReceivingEvents(true);
-        simpleTextCard2.setShowDivider(true);
-
-        SimpleTextCard simpleTextCard3= (SimpleTextCard)listCard.childAtIndex(2);
-        simpleTextCard3.setHeaderText("Jackie Goldberg");
-        simpleTextCard3.setTitleText("Draw: SLATE");
-//        simpleTextCard3.setCardImage(mRemoteResourceStore, mCardImages[2]);
-        simpleTextCard3.setReceivingEvents(true);
-        simpleTextCard3.setShowDivider(true);
-
-        SimpleTextCard simpleTextCard4= (SimpleTextCard)listCard.childAtIndex(3);
-        simpleTextCard4.setHeaderText("Joan Baez");
-        simpleTextCard4.setTitleText("Draw: A megaphone");
-//        simpleTextCard4.setCardImage(mRemoteResourceStore, mCardImages[3]);
-        simpleTextCard4.setReceivingEvents(true);
-        simpleTextCard4.setShowDivider(true);
-
-        SimpleTextCard simpleTextCard5= (SimpleTextCard)listCard.childAtIndex(4);
-        simpleTextCard5.setHeaderText("Mario Savio");
-        simpleTextCard5.setTitleText("Draw: Your view of Free Speech");
-//        simpleTextCard5.setCardImage(mRemoteResourceStore, mCardImages[4]);
-        simpleTextCard5.setReceivingEvents(true);
-        simpleTextCard5.setShowDivider(true);
-
-        SimpleTextCard simpleTextCard6= (SimpleTextCard)listCard.childAtIndex(5);
-        simpleTextCard6.setHeaderText("Michael Rossman");
-        simpleTextCard6.setTitleText("Draw: 'Free Speech'");
-//        simpleTextCard6.setCardImage(mRemoteResourceStore, mCardImages[5]);
-        simpleTextCard6.setReceivingEvents(true);
-        simpleTextCard6.setShowDivider(true);
-
-
     }
 
     /**
@@ -603,6 +432,14 @@ public class MainActivity extends Activity {
             currGame.put("playerList", players);
             currGame.saveInBackground();
 
+            ParseQuery pushQuery = ParseInstallation.getQuery();
+            pushQuery.whereEqualTo("user", killer.getUsername());
+
+            ParsePush push = new ParsePush();
+            push.setQuery(pushQuery);
+            push.setMessage("Kill confirmed, new target assigned");
+            push.sendInBackground();
+
         }
         catch (ParseException e) {}
 
@@ -627,6 +464,7 @@ public class MainActivity extends Activity {
         push.setMessage("You have been assassinated!");
         push.sendInBackground();
 
+        sendNotificationNewTarget();
     }
 
     //Goes to game user is currently in if any
