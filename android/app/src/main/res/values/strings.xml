@@ -8,4 +8,12 @@
     <string name="sign_up">Sign Up</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="error_initialising_icons">Can\'t initialize icons</string>
+    <string name="error_initialising_card_images">Can\'t initialize card images</string>
+    <string name="error_uninstalling_deck_of_cards">Can\'t uninstall deck of cards</string>
+    <string name="already_uninstalled">App is already uninstalled</string>
+
+    <string name="toq_activity">Open Toq App</string>
+    <string name="toq_btn">Open Toq App</string>
+
 </resources>

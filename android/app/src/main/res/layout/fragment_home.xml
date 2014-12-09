@@ -57,14 +57,16 @@
             android:layout_height="wrap_content"
             android:onClick="createGame"
             android:layout_weight="1"
-            android:text="Create"/>
+            android:text="Create"
+            android:textSize="12dp"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="joinGame"
             android:layout_weight="1"
-            android:text="Join"/>
+            android:text="Join"
+            android:textSize="12dp"/>
 
         <Button
             android:layout_width="0dp"
@@ -72,7 +74,8 @@
             android:onClick="goToGame"
             android:layout_weight="1"
             android:id="@+id/statusBtn"
-            android:text="Status"/>
+            android:text="Status"
+            android:textSize="12dp"/>
 
 
         <Button
@@ -80,7 +83,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="logout"
-            android:text="Logout"/>
+            android:text="Logout"
+            android:textSize="12dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Toq"
+            android:textSize="12dp"
+            android:onClick="installToq"/>
+
         </LinearLayout>
 
 
