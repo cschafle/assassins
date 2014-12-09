@@ -16,19 +16,33 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Current Username"
+            android:textSize="14dp"
             android:id="@+id/home"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="Games Available:"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:layout_weight="9">
+        android:layout_weight="8">
 
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/playersList">
+            android:id="@+id/gameList"
+            android:choiceMode="singleChoice">
 
             </ListView>
     </LinearLayout>
@@ -39,14 +53,31 @@
         android:layout_weight="1">
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="createGame"
-            android:text="Create Game"/>
+            android:layout_weight="1"
+            android:text="Create"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="joinGame"
+            android:layout_weight="1"
+            android:text="Join"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="goToGame"
+            android:layout_weight="1"
+            android:text="Status"/>
+
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="logout"
             android:text="Logout"/>
         </LinearLayout>

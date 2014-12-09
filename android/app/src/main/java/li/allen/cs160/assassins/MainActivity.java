@@ -15,10 +15,15 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
@@ -61,14 +66,42 @@ public class MainActivity extends Activity {
 
     }
 
+    //Join game
+    public void joinGame(View view) {
+
+        final ListView listView = (ListView) findViewById(R.id.gameList);
+
+        int id = listView.getCheckedItemPosition();
+        final String gameName = listView.getItemAtPosition(id).toString();
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", currentUser.getUsername());
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> users, ParseException e) {
+                if (e == null) {
+                    // The query was successful.
+                    ParseUser user = users.get(0);
+                    if ((Boolean) user.get("available")) {
+                        user.put("available", false);
+                        user.put("game", gameName);
+                        user.saveInBackground();
+                    }
+                } else {
+                    // Something went wrong.
+                }
+            }
+        });
+    }
+
     //Creates game as a parseObject
     public void create(View view) {
 
         EditText gameName = (EditText) findViewById(R.id.gameName);
         String sGameName = gameName.getText().toString();
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        String creator = currentUser.getUsername();
+        final ParseUser currentUser = ParseUser.getCurrentUser();
+        final String creator = currentUser.getUsername();
 
         final ParseObject game = new ParseObject("Game");
         game.put("gameName", sGameName);
@@ -114,6 +147,13 @@ public class MainActivity extends Activity {
                             if (e == null) {
                                 users.add(objects.get(0).getUsername());
                                 if (users.size() == countFinal) {
+
+                                    users.add(creator);
+
+                                    Set setItems = new LinkedHashSet(users);
+                                    users.clear();
+                                    users.addAll(setItems);
+
                                     long seed = System.nanoTime();
                                     Collections.shuffle(users, new Random(seed));
                                     game.put("playerList", users);
