@@ -19,6 +19,9 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
+import android.widget.AdapterView;
+import android.widget.CheckedTextView;
+import android.util.SparseBooleanArray;
 
 
 /**
@@ -58,10 +61,20 @@ public class GameCreationFragment extends Fragment {
                     String[] userStrings = new String[userStringArray.size()];
                     userStrings = userStringArray.toArray(userStrings);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(main,
-                            android.R.layout.simple_list_item_1, userStrings);
+                            android.R.layout.simple_list_item_multiple_choice, userStrings);
 
                     ListView listView = (ListView) layout.findViewById(R.id.playersList);
                     listView.setAdapter(adapter);
+
+
+
+                    SparseBooleanArray checked = listView.getCheckedItemPositions();
+                    for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+                        if (checked.get(i)) {
+                            // Do something
+                            Log.d("listview", "items checked: " + checked.get(i));
+                        }
+                    }
                 } else {
                     Log.d("users", "Error: " + e.getMessage());
                 }

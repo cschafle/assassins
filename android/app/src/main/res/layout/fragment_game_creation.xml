@@ -81,12 +81,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="24 hrs"
-                    android:onClick="dayOn"/>
+                    android:onClick="dayOn"
+                    android:id="@+id/day"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3 days"
-                    android:onClick="threeDaysOn"/>
+                    android:onClick="threeDaysOn"
+                    android:id="@+id/threeDays"/>
 
                 </LinearLayout>
 
@@ -98,13 +100,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1 week"
-                android:onClick="weekOn"/>
+                android:onClick="weekOn"
+                android:id="@+id/week"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Never"
-                    android:onClick="never"/>
+                    android:onClick="never"
+                    android:id="@+id/never"/>
 
             </LinearLayout>
 
@@ -161,7 +165,8 @@
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/playersList">
+            android:id="@+id/playersList"
+            android:choiceMode="multipleChoice">
 
         </ListView>
 

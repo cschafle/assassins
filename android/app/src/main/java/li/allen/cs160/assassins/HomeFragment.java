@@ -48,6 +48,18 @@ public class HomeFragment extends Fragment {
 
         main = this.getActivity();
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("playerName", "Dan Stemkoski");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                if (e == null) {
+                    Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("available", true);
         query.findInBackground(new FindCallback<ParseUser>() {

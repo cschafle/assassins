@@ -3,6 +3,7 @@ package li.allen.cs160.assassins;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.app.FragmentManager;
@@ -10,13 +11,23 @@ import android.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import com.parse.ParseUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.FindCallback;
+
+
 
 public class MainActivity extends Activity {
 
@@ -59,7 +70,7 @@ public class MainActivity extends Activity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         String creator = currentUser.getUsername();
 
-        ParseObject game = new ParseObject("Game");
+        final ParseObject game = new ParseObject("Game");
         game.put("gameName", sGameName);
         if (individual) {
             game.put("gameMode", "individual");
@@ -78,7 +89,58 @@ public class MainActivity extends Activity {
         }
         game.put("advanced", "off");
         game.put("creator", creator);
-        game.saveInBackground();
+
+        ListView listView = (ListView) findViewById(R.id.playersList);
+
+
+
+        SparseBooleanArray checked = listView.getCheckedItemPositions();
+        final ArrayList<String> users = new ArrayList<String>();
+        int count = 0;
+        for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+            if (checked.get(i)) {
+                // Do something
+                count ++;
+            }
+        }
+        final int countFinal = count;
+        if (countFinal > 0) {
+            for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+                if (checked.get(i)) {
+                    ParseQuery<ParseUser> query = ParseUser.getQuery();
+                    query.whereEqualTo("username", listView.getItemAtPosition(i));
+                    query.findInBackground(new FindCallback<ParseUser>() {
+                        public void done(List<ParseUser> objects, ParseException e) {
+                            if (e == null) {
+                                users.add(objects.get(0).getUsername());
+                                if (users.size() == countFinal) {
+                                    long seed = System.nanoTime();
+                                    Collections.shuffle(users, new Random(seed));
+                                    game.put("playerList", users);
+                                    game.saveInBackground();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    HomeFragment home = new HomeFragment();
+                                    fragmentTransaction.replace(R.id.container, home, "home");
+                                    fragmentTransaction.commit();
+
+                                }
+                            } else {
+                                // Something went wrong.
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            game.saveInBackground();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            HomeFragment home = new HomeFragment();
+            fragmentTransaction.replace(R.id.container, home, "home");
+            fragmentTransaction.commit();
+        }
+
+
     }
 
     //Logs user out and returns to welcome Fragment
@@ -117,6 +179,9 @@ public class MainActivity extends Activity {
         day = true;
         threeDays = false;
         week = false;
+        ((RadioButton) findViewById(R.id.threeDays)).setChecked(false);
+        ((RadioButton) findViewById(R.id.week)).setChecked(false);
+        ((RadioButton) findViewById(R.id.never)).setChecked(false);
     }
 
     //Sets reshuffle time to three days
@@ -124,6 +189,9 @@ public class MainActivity extends Activity {
         threeDays = true;
         day = false;
         week = false;
+        ((RadioButton) findViewById(R.id.day)).setChecked(false);
+        ((RadioButton) findViewById(R.id.week)).setChecked(false);
+        ((RadioButton) findViewById(R.id.never)).setChecked(false);
     }
 
     //Sets reshuffle time to 1 week
@@ -131,6 +199,9 @@ public class MainActivity extends Activity {
         week = true;
         day = false;
         threeDays = false;
+        ((RadioButton) findViewById(R.id.threeDays)).setChecked(false);
+        ((RadioButton) findViewById(R.id.day)).setChecked(false);
+        ((RadioButton) findViewById(R.id.never)).setChecked(false);
     }
 
     //Sets reshuffle time to never
@@ -138,6 +209,9 @@ public class MainActivity extends Activity {
         week = false;
         day = false;
         threeDays = false;
+        ((RadioButton) findViewById(R.id.threeDays)).setChecked(false);
+        ((RadioButton) findViewById(R.id.week)).setChecked(false);
+        ((RadioButton) findViewById(R.id.day)).setChecked(false);
     }
 
     //Calls LoginFragment login method
