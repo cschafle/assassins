@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.app.FragmentTransaction;
+import android.app.FragmentManager;
 
 import android.util.Log;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class StatusFragment extends Fragment {
     View layout;
     String layoutMode = "Regular";
     private Handler handler;
+    FragmentManager fragmentManager;
 
     public StatusFragment() {
         // Required empty public constructor
@@ -46,6 +48,8 @@ public class StatusFragment extends Fragment {
 
         handler = new Handler();
         handler.postDelayed(runnable, 1000);
+
+        fragmentManager = this.getFragmentManager();
 
         final ParseUser currentUser = ParseUser.getCurrentUser();
 
@@ -66,6 +70,10 @@ public class StatusFragment extends Fragment {
                 layoutMode = "Response";
             }
         }
+        ArrayList<String> players = (ArrayList<String>) currGame.get("playerList");
+        if (players.size() == 1) {
+            layoutMode = "Win";
+        }
 //
 //        ParseQuery<ParseUser> queryKilled = ParseUser.getQuery();
 //        queryKilled.whereEqualTo("killPending", currentUser.getUsername());
@@ -80,6 +88,13 @@ public class StatusFragment extends Fragment {
         if (layoutMode.equalsIgnoreCase("Response")) {
             layout = inflater.inflate(R.layout.fragment_status2, container, false);
             handler.removeCallbacks(runnable);
+
+            return layout;
+        }
+        else if (layoutMode.equalsIgnoreCase("Win")) {
+            layout = inflater.inflate(R.layout.fragment_status_win, container, false);
+            handler.removeCallbacks(runnable);
+
 
             return layout;
         }
@@ -152,10 +167,17 @@ public class StatusFragment extends Fragment {
                         userIndex=killsPending.indexOf(currentUser.getUsername());
                         if (userIndex > -1) {
                             StatusFragment status = new StatusFragment();
-                            FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
+                            FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
                             fragTransaction.replace(R.id.container,status, "status" );
                             fragTransaction.commit();
                         }
+                    }
+                    ArrayList<String> players = (ArrayList<String>) currGame.get("playerList");
+                    if (players.size() == 1) {
+                        StatusFragment status = new StatusFragment();
+                        FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
+                        fragTransaction.replace(R.id.container,status, "status" );
+                        fragTransaction.commit();
                     }
                 }
                 catch (IndexOutOfBoundsException e) {}
