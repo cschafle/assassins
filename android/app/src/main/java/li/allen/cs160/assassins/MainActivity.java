@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
 
     FragmentManager fragmentManager;
     boolean individual; boolean team; boolean day; boolean threeDays; boolean week;
+    Activity main;
 
     //Toq Stuff
     private final static String PREFS_FILE= "prefs_file";
@@ -95,6 +96,8 @@ public class MainActivity extends Activity {
         //Get intent extra to see if activity was launched from notification
         Intent i = getIntent();
         String extra = i.getStringExtra("fragment");
+
+        main = this;
 
         setContentView(R.layout.activity_main);
         fragmentManager = getFragmentManager();
@@ -383,24 +386,46 @@ public class MainActivity extends Activity {
     public void denyDeath(View view) {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        ParseQuery<ParseUser> queryUser = ParseUser.getQuery();
-        queryUser.whereEqualTo("killPending", currentUser.getUsername());
+        ParseQuery<ParseObject> queryGame = ParseQuery.getQuery("Game");
+        queryGame.whereEqualTo("gameName", currentUser.getString("game"));
+        ParseObject currGame = null;
         try {
-            ArrayList<ParseUser> killerList = (ArrayList<ParseUser>) queryUser.find();
-            ParseUser killer = killerList.get(0);
-            killer.remove("killPending");
-            killer.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    HomeFragment home = new HomeFragment();
-                    fragmentTransaction.replace(R.id.container, home, "home");
-                    fragmentTransaction.commit();
-                }
-            });
-
+            ArrayList<ParseObject> games = (ArrayList<ParseObject>) queryGame.find();
+            currGame = games.get(0);
         }
         catch (ParseException e) {}
+
+        ArrayList<String> killsPending = (ArrayList<String>) currGame.get("killsPending");
+        killsPending.remove(currentUser.getUsername());
+        currGame.put("killsPending", killsPending);
+        currGame.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                StatusFragment status = new StatusFragment();
+                fragmentTransaction.replace(R.id.container, status, "status");
+                fragmentTransaction.commit();
+            }
+        });
+//
+//        ParseQuery<ParseUser> queryUser = ParseUser.getQuery();
+//        queryUser.whereEqualTo("killPending", currentUser.getUsername());
+//        try {
+//            ArrayList<ParseUser> killerList = (ArrayList<ParseUser>) queryUser.find();
+//            ParseUser killer = killerList.get(0);
+//            killer.remove("killPending");
+//            killer.saveInBackground(new SaveCallback() {
+//                @Override
+//                public void done(ParseException e) {
+//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    HomeFragment home = new HomeFragment();
+//                    fragmentTransaction.replace(R.id.container, home, "home");
+//                    fragmentTransaction.commit();
+//                }
+//            });
+//
+//        }
+//        catch (ParseException e) {}
     }
 
     //Confirms death after receiving push notification
@@ -418,39 +443,41 @@ public class MainActivity extends Activity {
 
         ParseQuery<ParseUser> queryUser = ParseUser.getQuery();
         queryUser.whereEqualTo("killPending", currentUser.getUsername());
-        try {
-            ArrayList<ParseUser> killerList = (ArrayList<ParseUser>) queryUser.find();
-            ParseUser killer = killerList.get(0);
-            int killerKills = killer.getInt("kills");
-            killer.put("kills", killerKills+1);
-            killer.put("killPending", "");
-            killer.saveInBackground();
 
-            currentUser.put("available", true);
-            currentUser.put("game", "");
-            currentUser.saveInBackground();
+        currentUser.put("available", true);
+        currentUser.put("game", "");
+        currentUser.saveInBackground();
 
-            ArrayList<String> players = (ArrayList<String>) currGame.get("playerList");
-            Log.d("confirmDeath", players.toString());
-            players.remove(currentUser.getUsername());
-            currGame.put("playerList", players);
-            currGame.saveInBackground();
+        ArrayList<String> killsPending = (ArrayList<String>) currGame.get("killsPending");
+        killsPending.remove(currentUser.getUsername());
+        currGame.put("killsPending", killsPending);
+        ArrayList<String> players = (ArrayList<String>) currGame.get("playerList");
 
-            ParseQuery pushQuery = ParseInstallation.getQuery();
-            pushQuery.whereEqualTo("user", killer.getUsername());
-
-            ParsePush push = new ParsePush();
-            push.setQuery(pushQuery);
-            push.setMessage("Kill confirmed, new target assigned");
-            push.sendInBackground();
-
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            HomeFragment home = new HomeFragment();
-            fragmentTransaction.replace(R.id.container, home, "home");
-            fragmentTransaction.commit();
-
+        int currUserIndex = players.indexOf(currentUser.getUsername());
+        String killer;
+        if (currUserIndex+1 == players.size() ) {
+            killer = players.get(0);
         }
-        catch (ParseException e) {}
+        else {
+            killer = players.get(currUserIndex+1);
+        }
+        ParseQuery pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereEqualTo("user", killer);
+
+        Log.d("confirmDeath", players.toString());
+        players.remove(currentUser.getUsername());
+        currGame.put("playerList", players);
+        currGame.saveInBackground();
+
+        ParsePush push = new ParsePush();
+        push.setQuery(pushQuery);
+        push.setMessage("Kill confirmed, new target assigned");
+        push.sendInBackground();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        HomeFragment home = new HomeFragment();
+        fragmentTransaction.replace(R.id.container, home, "home");
+        fragmentTransaction.commit();
     }
 
     //Kill function sends notification and if accepted then alters playerList
@@ -458,10 +485,29 @@ public class MainActivity extends Activity {
     public void killTarget(View view) {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
-        TextView targetNameText = (TextView) findViewById(R.id.gameStatus_target);
+        final TextView targetNameText = (TextView) findViewById(R.id.gameStatus_target);
 
-        currentUser.put("killPending", targetNameText.getText().toString());
-        currentUser.saveInBackground();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("gameName", currentUser.get("game"));
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                ParseObject game = parseObjects.get(0);
+                ArrayList<String> killsPending = (ArrayList<String>) game.get("killsPending");
+                if (killsPending == null || killsPending.size() == 0) {
+                    ArrayList<String> temp = new ArrayList<String>();
+                    temp.add(targetNameText.getText().toString());
+                    killsPending = temp;
+                }
+                else {
+                    killsPending.add(targetNameText.getText().toString());
+                }
+                game.put("killsPending", killsPending);
+                game.saveInBackground();
+            }
+        });
+//        currentUser.put("killPending", targetNameText.getText().toString());
+//        currentUser.saveInBackground();
 
         ParseQuery pushQuery = ParseInstallation.getQuery();
         //REMEMBER TO CHANGE THE TARGET TO TARGETNAMETEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -473,6 +519,8 @@ public class MainActivity extends Activity {
         push.sendInBackground();
 
         sendNotificationNewTarget();
+
+        Toast.makeText(main, "Target notified, waiting for confirmation", Toast.LENGTH_SHORT).show();
     }
 
     //Goes to game user is currently in if any
@@ -507,38 +555,39 @@ public class MainActivity extends Activity {
         final ListView listView = (ListView) findViewById(R.id.gameList);
 
         int id = listView.getCheckedItemPosition();
-        final String gameName = listView.getItemAtPosition(id).toString();
+        try {
+            final String gameName = listView.getItemAtPosition(id).toString();
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username", currentUser.getUsername());
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> users, ParseException e) {
-                if (e == null) {
-                    // The query was successful.
-                    ParseUser user = users.get(0);
-                    if ((Boolean) user.get("available")) {
-                        user.put("available", false);
-                        user.put("game", gameName);
-                        user.put("kills", 0);
-                        user.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                StatusFragment status = new StatusFragment();
-                                fragmentTransaction.replace(R.id.container, status, "status");
-                                fragmentTransaction.addToBackStack("status");
-                                fragmentTransaction.commit();
-                            }
-                        });
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("username", currentUser.getUsername());
+            query.findInBackground(new FindCallback<ParseUser>() {
+                public void done(List<ParseUser> users, ParseException e) {
+                    if (e == null) {
+                        // The query was successful.
+                        ParseUser user = users.get(0);
+                        if ((Boolean) user.get("available")) {
+                            user.put("available", false);
+                            user.put("game", gameName);
+                            user.put("kills", 0);
+                            user.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    Toast.makeText(main, "Game Joined, press Status for Game", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
 
+                        }
+                    } else {
+                        // Something went wrong.
                     }
-                } else {
-                    // Something went wrong.
                 }
-            }
-        });
+            });
+        }
+        catch (NullPointerException e) {
+            Toast.makeText(main, "No game selected", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //Creates game as a parseObject

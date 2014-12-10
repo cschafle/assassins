@@ -49,15 +49,33 @@ public class StatusFragment extends Fragment {
 
         final ParseUser currentUser = ParseUser.getCurrentUser();
 
-        ParseQuery<ParseUser> queryKilled = ParseUser.getQuery();
-        queryKilled.whereEqualTo("killPending", currentUser.getUsername());
+        ParseQuery<ParseObject> queryGame = ParseQuery.getQuery("Game");
+        queryGame.whereEqualTo("gameName", currentUser.getString("game"));
+        ParseObject currGame = null;
         try {
-            ArrayList<ParseUser> users = (ArrayList<ParseUser>) queryKilled.find();
-            if (users.size() != 0) {
+            ArrayList<ParseObject> games = (ArrayList<ParseObject>) queryGame.find();
+            currGame = games.get(0);
+        }
+        catch (ParseException e) {}
+        Log.d("StatusFragment currGame", currGame.getString("gameName"));
+        ArrayList<String> killsPending = (ArrayList<String>) currGame.get("killsPending");
+        int userIndex;
+        if (killsPending != null) {
+            userIndex=killsPending.indexOf(currentUser.getUsername());
+            if (userIndex > -1) {
                 layoutMode = "Response";
             }
         }
-        catch (ParseException e) {}
+//
+//        ParseQuery<ParseUser> queryKilled = ParseUser.getQuery();
+//        queryKilled.whereEqualTo("killPending", currentUser.getUsername());
+//        try {
+//            ArrayList<ParseUser> users = (ArrayList<ParseUser>) queryKilled.find();
+//            if (users.size() != 0) {
+//                layoutMode = "Response";
+//            }
+//        }
+//        catch (ParseException e) {}
 
         if (layoutMode.equalsIgnoreCase("Response")) {
             layout = inflater.inflate(R.layout.fragment_status2, container, false);
@@ -90,13 +108,6 @@ public class StatusFragment extends Fragment {
                     if (e == null) {
                         // object will be your game score
                         ParseObject game;
-                        while (objects.size() == 0 ) {
-                            try {
-                                objects = query.find();
-                            }
-                            catch (ParseException e1) {}
-
-                        }
                         game = objects.get(0);
                         ArrayList<String> players = (ArrayList<String>) game.get("playerList");
                         int index = players.indexOf(currentUser.getUsername());
@@ -128,20 +139,32 @@ public class StatusFragment extends Fragment {
       /* do what you need to do */
             final ParseUser currentUser = ParseUser.getCurrentUser();
 
-            ParseQuery<ParseUser> queryKilled = ParseUser.getQuery();
-            queryKilled.whereEqualTo("killPending", currentUser.getUsername());
+            ParseQuery<ParseObject> queryGame = ParseQuery.getQuery("Game");
+            queryGame.whereEqualTo("gameName", currentUser.getString("game"));
+            ParseObject currGame = null;
             try {
-                ArrayList<ParseUser> users = (ArrayList<ParseUser>) queryKilled.find();
-                if (users.size() != 0) {
-                    StatusFragment status = new StatusFragment();
-                    FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
-                    fragTransaction.replace(R.id.container,status, "status" );
-                    fragTransaction.commit();
+                ArrayList<ParseObject> games = (ArrayList<ParseObject>) queryGame.find();
+                try {
+                    currGame = games.get(0);
+                    ArrayList<String> killsPending = (ArrayList<String>) currGame.get("killsPending");
+                    int userIndex;
+                    if (killsPending != null) {
+                        userIndex=killsPending.indexOf(currentUser.getUsername());
+                        if (userIndex > -1) {
+                            StatusFragment status = new StatusFragment();
+                            FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
+                            fragTransaction.replace(R.id.container,status, "status" );
+                            fragTransaction.commit();
+                        }
+                    }
                 }
+                catch (IndexOutOfBoundsException e) {}
             }
             catch (ParseException e) {}
+
+
       /* and here comes the "trick" */
-            handler.postDelayed(this, 10000);
+            handler.postDelayed(this, 5000);
         }
     };
 

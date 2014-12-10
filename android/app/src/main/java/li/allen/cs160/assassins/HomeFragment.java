@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
     View layout;
     Activity main;
     private Handler handler;
-    int gameCount;
+    int gameCount = -1;
 
 
     public HomeFragment() {
@@ -79,17 +79,27 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 }
+                String[] gameStrings;
                 if (gameStringArray.size() == 0) {
-                    gameStringArray.add("No Games Available");
+                    gameStrings = new String[1];
+                    gameCount = 0;
+                    gameStringArray.add("No games available");
+                    gameStrings = gameStringArray.toArray(gameStrings);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(main,
+                            android.R.layout.simple_list_item_1, gameStrings);
+                    ListView listView = (ListView) layout.findViewById(R.id.gameList);
+                    listView.setAdapter(adapter);
+                    listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
                 }
-                String[] gameStrings = new String[gameStringArray.size()];
-                if (gameCount != gameStringArray.size()) {
+                else if (gameCount != gameStringArray.size()) {
                     gameCount = gameStringArray.size();
+                    gameStrings = new String[gameStringArray.size()];
                     gameStrings = gameStringArray.toArray(gameStrings);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(main,
                             android.R.layout.simple_list_item_single_choice, gameStrings);
                     ListView listView = (ListView) layout.findViewById(R.id.gameList);
                     listView.setAdapter(adapter);
+                    listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                 }
             } else {
                 Log.d("score", "Error: " + e.getMessage());
@@ -97,7 +107,7 @@ public class HomeFragment extends Fragment {
             }
         });
       /* and here comes the "trick" */
-            handler.postDelayed(this, 5000);
+            handler.postDelayed(this, 2000);
         }
     };
 
