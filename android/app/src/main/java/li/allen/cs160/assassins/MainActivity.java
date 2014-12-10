@@ -387,8 +387,8 @@ public class MainActivity extends Activity {
         try {
             ArrayList<ParseUser> killerList = (ArrayList<ParseUser>) queryUser.find();
             ParseUser killer = killerList.get(0);
-            killer.put("killPending", "" );
-            killer.save();
+            killer.put("killPending", "");
+            killer.saveInBackground();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             StatusFragment status = new StatusFragment();
             fragmentTransaction.replace(R.id.container, status, "status");
