@@ -442,7 +442,6 @@ public class MainActivity extends Activity {
 
         }
         catch (ParseException e) {}
-
     }
 
     //Kill function sends notification and if accepted then alters playerList
