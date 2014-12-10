@@ -560,6 +560,7 @@ public class MainActivity extends Activity {
         }
         game.put("advanced", "off");
         game.put("creator", creator);
+        game.put("started", false);
 
         ListView listView = (ListView) findViewById(R.id.playersList);
 
