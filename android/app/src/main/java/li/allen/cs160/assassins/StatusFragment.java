@@ -76,7 +76,7 @@ public class StatusFragment extends Fragment {
             final TextView targetNameText = (TextView) layout.findViewById(R.id.gameStatus_target);
 
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
-            Log.d("gameName Query", currentUser.getString("game"));
+//            Log.d("gameName Query", currentUser.getString("game"));
             query.whereEqualTo("gameName", currentUser.getString("game"));
             ArrayList<ParseObject> gameResult;
             try {
