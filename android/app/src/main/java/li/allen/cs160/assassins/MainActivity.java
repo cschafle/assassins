@@ -47,6 +47,7 @@ import com.parse.ParseQuery;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 
+import com.parse.SaveCallback;
 import com.qualcomm.toq.smartwatch.api.v1.deckofcards.Constants;
 import com.qualcomm.toq.smartwatch.api.v1.deckofcards.DeckOfCardsEventListener;
 import com.qualcomm.toq.smartwatch.api.v1.deckofcards.card.Card;
@@ -387,13 +388,16 @@ public class MainActivity extends Activity {
         try {
             ArrayList<ParseUser> killerList = (ArrayList<ParseUser>) queryUser.find();
             ParseUser killer = killerList.get(0);
-            killer.put("killPending", "");
-            killer.saveInBackground();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            StatusFragment status = new StatusFragment();
-            fragmentTransaction.replace(R.id.container, status, "status");
-            fragmentTransaction.addToBackStack("status");
-            fragmentTransaction.commit();
+            killer.remove("killPending");
+            killer.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    HomeFragment home = new HomeFragment();
+                    fragmentTransaction.replace(R.id.container, home, "home");
+                    fragmentTransaction.commit();
+                }
+            });
 
         }
         catch (ParseException e) {}
@@ -439,6 +443,11 @@ public class MainActivity extends Activity {
             push.setQuery(pushQuery);
             push.setMessage("Kill confirmed, new target assigned");
             push.sendInBackground();
+
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            HomeFragment home = new HomeFragment();
+            fragmentTransaction.replace(R.id.container, home, "home");
+            fragmentTransaction.commit();
 
         }
         catch (ParseException e) {}
@@ -498,7 +507,7 @@ public class MainActivity extends Activity {
         final ListView listView = (ListView) findViewById(R.id.gameList);
 
         int id = listView.getCheckedItemPosition();
-        final String gameName = (String) listView.getItemAtPosition(id);
+        final String gameName = listView.getItemAtPosition(id).toString();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -512,15 +521,16 @@ public class MainActivity extends Activity {
                         user.put("available", false);
                         user.put("game", gameName);
                         user.put("kills", 0);
-                        try {
-                            user.save();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            StatusFragment status = new StatusFragment();
-                            fragmentTransaction.replace(R.id.container, status, "status");
-                            fragmentTransaction.addToBackStack("status");
-                            fragmentTransaction.commit();
-                        }
-                        catch (ParseException e2) {}
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                StatusFragment status = new StatusFragment();
+                                fragmentTransaction.replace(R.id.container, status, "status");
+                                fragmentTransaction.addToBackStack("status");
+                                fragmentTransaction.commit();
+                            }
+                        });
 
 
                     }
