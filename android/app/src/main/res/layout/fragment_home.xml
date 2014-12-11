@@ -1,81 +1,91 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="li.allen.cs160.assassins.HomeFragment"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.5">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Current Username"
-            android:textSize="14dp"
-            android:id="@+id/home"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5">
-
+        android:background="@color/accent"
+        android:id="@+id/top">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:text="Games Available:"/>
-        </LinearLayout>
+            android:text="Current Username"
+            android:textSize="35dp"
+            android:id="@+id/home"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="8">
-
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/gameList"
-            android:choiceMode="singleChoice">
-
-            </ListView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1">
 
         <Button
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:onClick="createGame"
-            android:layout_weight="1"
-            android:text="Create"
-            android:textSize="12dp"/>
+            android:textColor="@android:color/white"
+            android:background="@color/primary"
+            android:text="Create New Game"
+            android:id="@+id/new_game"
+            android:textSize="20dp"
+            android:layout_below="@+id/home"
+            android:layout_marginTop="41dp" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:onClick="joinGame"
-            android:layout_weight="1"
-            android:text="Join"
-            android:textSize="12dp"/>
-
-        <Button
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="goToGame"
-            android:layout_weight="1"
             android:id="@+id/statusBtn"
-            android:text="Status"
-            android:textSize="12dp"/>
+            android:textColor="@android:color/white"
+            android:background="@color/primary"
+            android:text="Check Status of Game"
+            android:textSize="20dp"
+            android:layout_alignBottom="@+id/new_game"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/home"-->
+        <!--android:id="@+id/newgame"-->
+        <!--android:text="To start a new game"/>-->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/games_available"
+        android:textSize="20dp"
+        android:text="Games Available:"
+        android:layout_below="@+id/top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="42dp" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameList"
+        android:choiceMode="singleChoice"
+        android:layout_below="@id/games_available">
+        </ListView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="joinGame"
+        android:layout_weight="1"
+        android:text="Join"
+        android:textColor="@android:color/white"
+        android:background="@color/primary"
+        android:layout_below="@+id/gameList"
+        android:id="@+id/join"
+        android:textSize="12dp"/>
+
 
 
         <Button
@@ -92,9 +102,10 @@
             android:layout_weight="1"
             android:text="Toq"
             android:textSize="12dp"
-            android:onClick="installToq"/>
+            android:onClick="installToq"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/games_available"
+            android:layout_toEndOf="@+id/games_available" />
 
-        </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>
