@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.2-ed35e4bd3f43a4b0bb5ba9156ba61acdaa47f069.jar"
+        jar="C:\Users\User\AppData\Local\Android\android-studio2\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.2\support-annotations-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6"/>
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.3-73140ae72aac496705fe45b8cc2dbd4379a54678.jar"
+        jar="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\libs\Parse-1.7.1\bolts-android-1.1.3.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="e61e3dfc57eaa5c97f9e7061db5608fc7d02d39e"/>
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-4dc6c1ada1e3c34d6306c73f74f3b7ed7a61cf8e.jar"
+        jar="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\libs\internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f"/>
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\classes-172ec08fa08656cf782de581b7e4e2182cc93007.jar"
+        jar="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3"/>
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-cf0e1cc01e8e446ea8e9565da67a1aee9baa312b.jar"
+        jar="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.2\libs\internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="9346da9fb778af9e451211bbc3541daced174ba7"/>
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\android-toq-api-1.5.2-cff25bc7f8ff2a027c1bc89cdcd8b323910aa28b.jar"
+        jar="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\libs\android-toq-api-1.5.2.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="33b06af4f6ee27952eee84fe82ed15d8f603d4b7"/>
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\Parse-1.7.1-b87ab24e03c3661129d3fca6f684c72d747baa57.jar"
+        jar="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\libs\Parse-1.7.1\Parse-1.7.1.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="87c45f9f66da531a65f065ee32f603c7e6db1528"/>
+    <item
+        dex="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\pre-dexed\debug\classes-c918f1f32d540148cec85eee72b7c231502d5028.jar"
+        jar="C:\Users\User\Downloads\assassins-master\assassins-Ryan\android\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.2\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="61965ae058916e6a57950dd61b0164dc866af19a"/>
+
+</pre-dex-items>

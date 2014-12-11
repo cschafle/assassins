@@ -1,0 +1,126 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="li.allen.cs160.assassins.GameCreationFragment">
+    <TextView
+        android:text="Game Settings:"
+        android:textSize="30dp"
+        android:padding="10dip"
+        />
+    <View
+        android:layout_height="2dip"
+        android:background="@android:color/black" />
+
+
+    <!-- 2 columns -->
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:text="Game Name:"
+            android:textColor="@color/primary_dark"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:id="@+id/gameName"
+            />
+    </TableRow>
+
+    <!-- edittext span 2 column -->
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:textColor="@color/primary_dark"
+            android:text="Game Mode:" />
+
+        <Spinner
+            android:id="@+id/game_mode"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/game_mode"
+            android:prompt="@string/mode_prompt"/>
+
+    </TableRow>
+
+    <!-- 3 columns -->
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:textColor="@color/primary_dark"
+            android:text="Reshuffle Time:" />
+
+        <Spinner
+            android:id="@+id/reshuffle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/reshuffle"
+            android:prompt="@string/reshuffle_prompt"/>
+
+    </TableRow>
+
+    <!-- 2 columns -->
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Users:       "
+            android:textColor="@color/primary_dark"
+            android:textSize="20dp"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/playersList"
+            android:choiceMode="multipleChoice">
+
+        </ListView>
+
+    </TableRow>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:textColor="@android:color/white"
+            android:onClick="create"
+            android:text="Create"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</TableLayout><!-- From: file:/C:/Users/User/Downloads/assassins-master/assassins-Ryan/android/app/src/main/res/layout/fragment_game_creation.xml -->
