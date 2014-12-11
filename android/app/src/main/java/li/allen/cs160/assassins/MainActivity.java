@@ -1,18 +1,20 @@
 package li.allen.cs160.assassins;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -74,7 +76,14 @@ public class MainActivity extends Activity {
 
         //Android Phone
         //Remove title bar
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ActionBar bar = getActionBar();
+        //bar.setBackgroundDrawable(new ColorDrawable(R.color.primary_dark));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#303F9F")));
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setIcon(R.drawable.logo);
+        bar.setDisplayShowTitleEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(false);
 
         //Get intent extra to see if activity was launched from notification
         Intent i = getIntent();
