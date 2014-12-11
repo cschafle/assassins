@@ -2,26 +2,26 @@ package li.allen.cs160.assassins;
 
 
 
-import android.os.Bundle;
+import android.app.Activity;
 import android.app.Fragment;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.FindCallback;
-import java.util.List;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.ArrayAdapter;
 import java.util.ArrayList;
-import android.app.Activity;
-import android.widget.ListView;
-import android.widget.Button;
-import android.os.Handler;
+import java.util.List;
 
 
 /**
@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
         /* do what you need to do */
         final ParseUser currentUser = ParseUser.getCurrentUser();
         TextView home = (TextView) layout.findViewById(R.id.home);
-        home.setText(currentUser.getUsername());
+        home.setText("Welcome " + currentUser.getUsername());
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
         query.whereEqualTo("started", false);

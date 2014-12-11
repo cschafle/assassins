@@ -1,65 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        android:text="You've been assassinated"
+        android:textSize="25dp"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/profile_pic"
+        android:layout_centerHorizontal="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="You have been assassinated!"
-            android:id="@+id/gameStatus2_killer"
-            android:textSize="24dp"/>
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="300dp"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:maxWidth="60dp"
+        android:maxHeight="60dp"
+        android:src="@drawable/profpic_blue"
+        android:id="@+id/profile_pic"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
-        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <Button
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:text="Deny Death"
+        android:onClick="denyDeath"
+        android:layout_below="@+id/profile_pic"
+        android:layout_alignLeft="@+id/profile_pic"
+        android:layout_alignStart="@+id/profile_pic"
+        android:textColor="@android:color/white"
+        android:background="@color/primary"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5">
-
-
-            </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Confirm Death"
-                android:onClick="confirmDeath"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Deny Death"
-                android:onClick="denyDeath"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5">
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Confirm Death"
+        android:onClick="confirmDeath"
+        android:layout_below="@+id/profile_pic"
+        android:layout_alignRight="@+id/profile_pic"
+        android:layout_alignEnd="@+id/profile_pic"
+        android:textColor="@android:color/white"
+        android:background="@color/primary"/>
 
 
-        </LinearLayout>
-
-
-        </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
