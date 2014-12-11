@@ -1,13 +1,12 @@
 package li.allen.cs160.assassins;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
@@ -47,9 +46,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class MainActivity  extends FragmentActivity {
 
-    android.app.FragmentManager fragmentManager;
+public class MainActivity extends Activity {
+
+    FragmentManager fragmentManager;
     boolean individual; boolean team; boolean day; boolean threeDays; boolean week;
     Activity main;
 
@@ -110,17 +110,6 @@ public class MainActivity  extends FragmentActivity {
         }
     }
 
-
-    //////////////////////////////////////////////////////////////////////////////
-    private void showEditDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        CreateLoginFragment editNameDialog = new CreateLoginFragment();
-        editNameDialog.show(fm, "dlg_edit_name");
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////////
-
     //Toq stuff
     // Create some cards with example content
     private RemoteDeckOfCards createDeckOfCards(){
@@ -158,7 +147,6 @@ public class MainActivity  extends FragmentActivity {
 //            Toast.makeText(this, "Failed to send Notification", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     //Installs Toq Applet
     private void install() {
@@ -742,13 +730,11 @@ public class MainActivity  extends FragmentActivity {
 
     //Replaces screen to log in screen
     public void loginFragment(View view) {
-//        SignInFragment login = new SignInFragment();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.container, login, "signIn");
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
-        showEditDialog();
-
+        SignInFragment login = new SignInFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, login, "signIn");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     //Calls signInFragment login method
