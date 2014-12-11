@@ -476,28 +476,54 @@ public class MainActivity extends Activity {
     //NEED TO CHANGE SOMETHING IN THIS AFTER TESTING PHASE IS OVER
     public void killTarget(View view) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-
         final TextView targetNameText = (TextView) findViewById(R.id.gameStatus_target);
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
-        query.whereEqualTo("gameName", currentUser.get("game"));
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                ParseObject game = parseObjects.get(0);
-                ArrayList<String> killsPending = (ArrayList<String>) game.get("killsPending");
-                if (killsPending == null || killsPending.size() == 0) {
-                    ArrayList<String> temp = new ArrayList<String>();
-                    temp.add(targetNameText.getText().toString());
-                    killsPending = temp;
-                }
-                else {
-                    killsPending.add(targetNameText.getText().toString());
-                }
-                game.put("killsPending", killsPending);
-                game.saveInBackground();
-            }
-        });
+/////////////////////////////////////////////////////////////////////////
+//        final TextView waiting = (TextView) findViewById(R.id.waiting);
+//
+//        view.setVisibility(View.GONE);
+//        waiting.setVisibility(View.VISIBLE);
+//        CharSequence options[] = new CharSequence[] {"Report Kill", "False Alarm"};
+//
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
+//                .setTitle("Report Kill")
+//                .setMessage("We'll ask"+ targetNameText.toString() + "to confirm that you've killed him");
+//
+//
+//        final FrameLayout frameView = new FrameLayout(view.getContext());
+//        builder.setView(frameView);
+//        builder.setItems(options, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // record wether or not they "killed them" send data out
+//
+//            }
+//        });
+//
+//        final AlertDialog alertDialog = builder.create();
+//        LayoutInflater inflater = alertDialog.getLayoutInflater();
+//        View dialoglayout = inflater.inflate(R.layout.report_kill, frameView);
+//        alertDialog.show();
+//
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+//        query.whereEqualTo("gameName", currentUser.get("game"));
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> parseObjects, ParseException e) {
+//                ParseObject game = parseObjects.get(0);
+//                ArrayList<String> killsPending = (ArrayList<String>) game.get("killsPending");
+//                if (killsPending == null || killsPending.size() == 0) {
+//                    ArrayList<String> temp = new ArrayList<String>();
+//                    temp.add(targetNameText.getText().toString());
+//                    killsPending = temp;
+//                }
+//                else {
+//                    killsPending.add(targetNameText.getText().toString());
+//                }
+//                game.put("killsPending", killsPending);
+//                game.saveInBackground();
+//            }
+//        });
 //        currentUser.put("killPending", targetNameText.getText().toString());
 //        currentUser.saveInBackground();
 

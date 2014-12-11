@@ -6,6 +6,24 @@
     tools:context="li.allen.cs160.assassins.StatusFragment"
     android:background="@android:color/white">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_pic"
+        android:id="@+id/cur_target"
+        android:text="Current Target: "
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cur_target"
+        android:layout_centerHorizontal="true"
+        android:text="Target Name"
+        android:textSize="27dp"
+        android:id="@+id/gameStatus_target"/>
+
     <ImageView
         android:layout_width="250dp"
         android:layout_height="300dp"
@@ -22,38 +40,28 @@
         android:layout_height="wrap_content"
         android:text="Current Username"
         android:textSize="20dp"
+        android:textColor="@android:color/white"
         android:id="@+id/gameStatus_username"/>
-
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/game_name"-->
+        <!--android:text="Game:"/>-->
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Game Name"
         android:textSize="19dp"
+        android:layout_above="@+id/profile_pic"
         android:id="@+id/gameStatus_gameName"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Target: "/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:text="Target Name"
-            android:textSize="18dp"
-            android:id="@+id/gameStatus_target"/>
-
-
     <Button
-        android:layout_width="115dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Kill Target"
+        android:text="Assassinate Target"
         android:onClick="killTarget"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/primary"
         android:textColor="@android:color/white"/>
-
 
 </RelativeLayout>
