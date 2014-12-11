@@ -24,6 +24,8 @@ public class CreateLoginFragment extends DialogFragment implements TextView.OnEd
     private EditText username;
     private EditText password;
 
+    View view;
+
 
     public CreateLoginFragment() {
         // Empty constructor required for DialogFragment
@@ -32,7 +34,7 @@ public class CreateLoginFragment extends DialogFragment implements TextView.OnEd
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_edit_login, container);
+        view = inflater.inflate(R.layout.fragment_edit_login, container);
         username = (EditText) view.findViewById(R.id.username2);
         password = (EditText) view.findViewById(R.id.username2);
         getDialog().setTitle("Please fill in your information");
@@ -56,5 +58,7 @@ public class CreateLoginFragment extends DialogFragment implements TextView.OnEd
         }
         return false;
     }
+
+
 }
 

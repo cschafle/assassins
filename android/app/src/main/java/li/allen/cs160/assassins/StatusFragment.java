@@ -1,28 +1,27 @@
 package li.allen.cs160.assassins;
 
 
-
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
-import android.app.Fragment;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.app.FragmentTransaction;
-import android.app.FragmentManager;
 
-import android.util.Log;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
-import com.parse.ParseUser;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.FindCallback;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -114,6 +113,8 @@ public class StatusFragment extends Fragment {
             gameNameText.setText(currentUser.getString("game"));
 
             final TextView targetNameText = (TextView) layout.findViewById(R.id.gameStatus_target);
+            targetNameText.setGravity(Gravity.CENTER);
+
 
             final ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
             Log.d("gameName Query", currentUser.getString("game"));

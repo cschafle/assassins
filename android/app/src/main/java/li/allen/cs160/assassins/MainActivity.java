@@ -1,20 +1,20 @@
 package li.allen.cs160.assassins;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,9 +49,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class MainActivity  extends FragmentActivity {
 
-    android.app.FragmentManager fragmentManager;
+public class MainActivity extends Activity {
+
+    FragmentManager fragmentManager;
     boolean individual; boolean team; boolean day; boolean threeDays; boolean week;
     Activity main;
 
@@ -76,7 +77,14 @@ public class MainActivity  extends FragmentActivity {
 
         //Android Phone
         //Remove title bar
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ActionBar bar = getActionBar();
+        //bar.setBackgroundDrawable(new ColorDrawable(R.color.primary_dark));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#303F9F")));
+        bar.setDisplayHomeAsUpEnabled(true);
+        //bar.setIcon(R.drawable.logo_circle);
+        bar.setDisplayShowTitleEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(false);
 
         //Get intent extra to see if activity was launched from notification
         Intent i = getIntent();
@@ -111,17 +119,6 @@ public class MainActivity  extends FragmentActivity {
             fragmentTransaction.commit();
         }
     }
-
-
-    //////////////////////////////////////////////////////////////////////////////
-    private void showEditDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        CreateLoginFragment editNameDialog = new CreateLoginFragment();
-        editNameDialog.show(fm, "dlg_edit_name");
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////////
 
     //Toq stuff
     // Create some cards with example content
@@ -160,7 +157,6 @@ public class MainActivity  extends FragmentActivity {
 //            Toast.makeText(this, "Failed to send Notification", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     //Installs Toq Applet
     private void install() {
@@ -481,28 +477,54 @@ public class MainActivity  extends FragmentActivity {
     //NEED TO CHANGE SOMETHING IN THIS AFTER TESTING PHASE IS OVER
     public void killTarget(View view) {
         ParseUser currentUser = ParseUser.getCurrentUser();
-
         final TextView targetNameText = (TextView) findViewById(R.id.gameStatus_target);
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
-        query.whereEqualTo("gameName", currentUser.get("game"));
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                ParseObject game = parseObjects.get(0);
-                ArrayList<String> killsPending = (ArrayList<String>) game.get("killsPending");
-                if (killsPending == null || killsPending.size() == 0) {
-                    ArrayList<String> temp = new ArrayList<String>();
-                    temp.add(targetNameText.getText().toString());
-                    killsPending = temp;
-                }
-                else {
-                    killsPending.add(targetNameText.getText().toString());
-                }
-                game.put("killsPending", killsPending);
-                game.saveInBackground();
-            }
-        });
+/////////////////////////////////////////////////////////////////////////
+//        final TextView waiting = (TextView) findViewById(R.id.waiting);
+//
+//        view.setVisibility(View.GONE);
+//        waiting.setVisibility(View.VISIBLE);
+//        CharSequence options[] = new CharSequence[] {"Report Kill", "False Alarm"};
+//
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
+//                .setTitle("Report Kill")
+//                .setMessage("We'll ask"+ targetNameText.toString() + "to confirm that you've killed him");
+//
+//
+//        final FrameLayout frameView = new FrameLayout(view.getContext());
+//        builder.setView(frameView);
+//        builder.setItems(options, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // record wether or not they "killed them" send data out
+//
+//            }
+//        });
+//
+//        final AlertDialog alertDialog = builder.create();
+//        LayoutInflater inflater = alertDialog.getLayoutInflater();
+//        View dialoglayout = inflater.inflate(R.layout.report_kill, frameView);
+//        alertDialog.show();
+//
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+//        query.whereEqualTo("gameName", currentUser.get("game"));
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> parseObjects, ParseException e) {
+//                ParseObject game = parseObjects.get(0);
+//                ArrayList<String> killsPending = (ArrayList<String>) game.get("killsPending");
+//                if (killsPending == null || killsPending.size() == 0) {
+//                    ArrayList<String> temp = new ArrayList<String>();
+//                    temp.add(targetNameText.getText().toString());
+//                    killsPending = temp;
+//                }
+//                else {
+//                    killsPending.add(targetNameText.getText().toString());
+//                }
+//                game.put("killsPending", killsPending);
+//                game.saveInBackground();
+//            }
+//        });
 //        currentUser.put("killPending", targetNameText.getText().toString());
 //        currentUser.saveInBackground();
 
@@ -744,13 +766,11 @@ public class MainActivity  extends FragmentActivity {
 
     //Replaces screen to log in screen
     public void loginFragment(View view) {
-//        SignInFragment login = new SignInFragment();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.container, login, "signIn");
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
-        showEditDialog();
-
+        SignInFragment login = new SignInFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, login, "signIn");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     //Calls signInFragment login method
