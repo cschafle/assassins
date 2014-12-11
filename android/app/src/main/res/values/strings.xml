@@ -4,5 +4,31 @@
     <string name="app_name">Assassins</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="error_initialising_icons">Can\'t initialize icons</string>
+    <string name="error_initialising_card_images">Can\'t initialize card images</string>
+    <string name="error_uninstalling_deck_of_cards">Can\'t uninstall deck of cards</string>
+    <string name="already_uninstalled">App is already uninstalled</string>
+
+    <string name="toq_activity">Open Toq App</string>
+    <string name="toq_btn">Open Toq App</string>
+
+    <string name="mode_prompt">Individual</string>
+    <string name="reshuffle_prompt">Never</string>
+
+    <string-array name="game_mode">
+        <item>Individual</item>
+        <item>Teams</item>
+    </string-array>
+
+    <string-array name="reshuffle">
+        <item>1 Week</item>
+        <item>3 Days</item>
+        <item>24 Hours</item>
+        <item>Never</item>
+    </string-array>
 
 </resources>
