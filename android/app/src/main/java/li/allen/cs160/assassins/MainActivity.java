@@ -1,6 +1,7 @@
 package li.allen.cs160.assassins;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -753,8 +755,37 @@ public class MainActivity  extends FragmentActivity {
 
     //Calls signInFragment login method
     public void login(View view) {
-        SignInFragment fragment = (SignInFragment) fragmentManager.findFragmentByTag("signIn");
-        fragment.login(view);
+        EditText usernameEditText = (EditText) findViewById(R.id.username2);
+        String sUsername = usernameEditText.getText().toString();
+        if (sUsername.matches("")) {
+            Toast.makeText(main, "You did not enter a username", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        EditText passwordEditText = (EditText) findViewById(R.id.password2);
+        String sPassword = passwordEditText.getText().toString();
+        if (sPassword.matches("")) {
+            Toast.makeText(main, "You did not enter a password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        ParseUser.logInInBackground(sUsername, sPassword, new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    // Hooray! The user is logged in.
+                    Toast.makeText(main, "Login Accepted", Toast.LENGTH_SHORT).show();
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    HomeFragment home = new HomeFragment();
+                    fragmentTransaction.replace(R.id.container, home, "home");
+                    fragmentTransaction.commit();
+                } else {
+                    // Signup failed. Look at the ParseException to see what happened.
+                    Log.d("SignIn", "login()", e);
+                }
+            }
+        });
     }
 
     //Redirects to sign up fragment
