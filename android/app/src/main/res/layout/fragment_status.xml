@@ -15,45 +15,21 @@
         android:maxHeight="60dp"
         android:src="@drawable/profpic_blue"
         android:id="@+id/profile_pic"
-        android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true" />
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Current Username"
+        android:textSize="20dp"
+        android:id="@+id/gameStatus_username"/>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Current Username"
-            android:textSize="20dp"
-            android:id="@+id/gameStatus_username"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_horizontal_margin"
-        android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Game Name"
-            android:textSize="19dp"
-            android:id="@+id/gameStatus_gameName"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/activity_horizontal_margin">
+        android:text="Game Name"
+        android:textSize="19dp"
+        android:id="@+id/gameStatus_gameName"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,25 +44,6 @@
             android:textSize="18dp"
             android:id="@+id/gameStatus_target"/>
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-
-        </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin">
-
-    </LinearLayout>
 
     <Button
         android:layout_width="115dp"

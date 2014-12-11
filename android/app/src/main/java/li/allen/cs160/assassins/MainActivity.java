@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
         //bar.setBackgroundDrawable(new ColorDrawable(R.color.primary_dark));
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#303F9F")));
         bar.setDisplayHomeAsUpEnabled(true);
-        bar.setIcon(R.drawable.logo);
+        //bar.setIcon(R.drawable.logo_circle);
         bar.setDisplayShowTitleEnabled(true);
         bar.setDisplayHomeAsUpEnabled(false);
 
