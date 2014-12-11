@@ -9,6 +9,7 @@
         android:textSize="30dp"
         android:padding="10dip"
         />
+
     <View
         android:layout_height="2dip"
         android:background="@android:color/black" />
@@ -19,7 +20,7 @@
         android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:padding="5dip" >
 
         <TextView
             android:layout_width="match_parent"
@@ -36,12 +37,17 @@
             />
     </TableRow>
 
+    <View
+        android:layout_height="1dip"
+        android:background="@color/gray" />
+
+
     <!-- edittext span 2 column -->
     <TableRow
         android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:padding="5dip" >
 
         <TextView
             android:layout_width="match_parent"
@@ -59,12 +65,16 @@
 
     </TableRow>
 
+    <View
+        android:layout_height="1dip"
+        android:background="@color/gray" />
+
     <!-- 3 columns -->
     <TableRow
         android:id="@+id/tableRow3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:padding="5dip" >
 
         <TextView
             android:layout_width="match_parent"
@@ -82,12 +92,16 @@
 
     </TableRow>
 
+    <View
+        android:layout_height="1dip"
+        android:background="@color/gray" />
+
     <!-- 2 columns -->
     <TableRow
         android:id="@+id/tableRow4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dip" >
+        android:padding="5dip" >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,6 +125,13 @@
 
     </TableRow>
 
+    <View
+        android:layout_height="1dip"
+        android:background="@color/gray" />
+
+    <View
+        android:layout_height="3dip"
+        android:background="@android:color/white" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -124,6 +145,7 @@
             android:background="@color/primary"
             android:textColor="@android:color/white"
             android:onClick="create"
+            android:textSize="15dp"
             android:text="Create"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
