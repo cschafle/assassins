@@ -570,8 +570,9 @@ public class MainActivity extends Activity {
 
 
     //Join game from games where user has been invited
-    public void joinGame(View view) {
-        final View view2 = view;
+    public void joinGame(String name) {
+        //final View view2 = view;
+        final String name2 = name;
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", currentUser.getUsername());
@@ -582,8 +583,8 @@ public class MainActivity extends Activity {
                     ParseUser user = users.get(0);
                     if ((Boolean) user.get("available")) {
                         user.put("available", false);
-                        Log.d("MainActivity, joinGame", (String) view2.getTag());
-                        user.put("game", view2.getTag());
+                        //Log.d("MainActivity, joinGame", (String) view2.getTag());
+                        user.put("game", name2);//view2.getTag());
                         user.put("kills", 0);
                         user.saveInBackground(new SaveCallback() {
                             @Override

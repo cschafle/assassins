@@ -74,7 +74,6 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="joinGame"
                 android:text="Join"
                 android:textSize="18dp"
                 android:layout_alignParentRight="true"

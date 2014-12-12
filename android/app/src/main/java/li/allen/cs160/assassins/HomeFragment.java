@@ -119,6 +119,16 @@ public class HomeFragment extends Fragment {
 
                             Button buttonView = (Button) layout.findViewById(R.id.gameButton);
                             buttonView.setTag(gameStrings[i]);
+
+                            buttonView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    //view.setTag();
+                                    Log.d("HOME FRAGMENT", (String)view.getTag());
+                                    String gameName = (String) view.getTag();
+                                    ((MainActivity) main).joinGame(gameName);
+                                }
+                            });
                             continue;
                         }
 
@@ -143,7 +153,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 //view.setTag();
-                                ((MainActivity) main).joinGame(view);
+                                ((MainActivity) main).joinGame((String) view.getTag());
                             }
                         });
 
