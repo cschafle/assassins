@@ -568,45 +568,74 @@ public class MainActivity extends Activity {
         }
     }
 
+
     //Join game from games where user has been invited
     public void joinGame(View view) {
 
-        final ListView listView = (ListView) findViewById(R.id.gameList);
-
-        int id = listView.getCheckedItemPosition();
-        try {
-            final String gameName = listView.getItemAtPosition(id).toString();
-
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.whereEqualTo("username", currentUser.getUsername());
-            query.findInBackground(new FindCallback<ParseUser>() {
-                public void done(List<ParseUser> users, ParseException e) {
-                    if (e == null) {
-                        // The query was successful.
-                        ParseUser user = users.get(0);
-                        if ((Boolean) user.get("available")) {
-                            user.put("available", false);
-                            user.put("game", gameName);
-                            user.put("kills", 0);
-                            user.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    Toast.makeText(main, "Game Joined, press Status for Game", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", currentUser.getUsername());
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> users, ParseException e) {
+                if (e == null) {
+                    // The query was successful.
+                    ParseUser user = users.get(0);
+                    if ((Boolean) user.get("available")) {
+                        user.put("available", false);
+                        user.put("game", view.getTag());
+                        user.put("kills", 0);
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(main, "Game Joined, press Status for Game", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
 
-                        }
-                    } else {
-                        // Something went wrong.
                     }
+                } else {
+                    // Something went wrong.
                 }
-            });
-        }
-        catch (NullPointerException e) {
-            Toast.makeText(main, "No game selected", Toast.LENGTH_SHORT).show();
-        }
+            }
+        });
+
+
+//        final ListView listView = (ListView) findViewById(R.id.gameList);
+//
+//        int id = listView.getCheckedItemPosition();
+//        try {
+//            final String gameName = listView.getItemAtPosition(id).toString();
+//
+//            ParseUser currentUser = ParseUser.getCurrentUser();
+//            ParseQuery<ParseUser> query = ParseUser.getQuery();
+//            query.whereEqualTo("username", currentUser.getUsername());
+//            query.findInBackground(new FindCallback<ParseUser>() {
+//                public void done(List<ParseUser> users, ParseException e) {
+//                    if (e == null) {
+//                        // The query was successful.
+//                        ParseUser user = users.get(0);
+//                        if ((Boolean) user.get("available")) {
+//                            user.put("available", false);
+//                            user.put("game", gameName);
+//                            user.put("kills", 0);
+//                            user.saveInBackground(new SaveCallback() {
+//                                @Override
+//                                public void done(ParseException e) {
+//                                    Toast.makeText(main, "Game Joined, press Status for Game", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//
+//
+//                        }
+//                    } else {
+//                        // Something went wrong.
+//                    }
+//                }
+//            });
+//        }
+//        catch (NullPointerException e) {
+//            Toast.makeText(main, "No game selected", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     //Creates game as a parseObject
