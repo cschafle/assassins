@@ -137,10 +137,13 @@ public class HomeFragment extends Fragment {
                         buttonView.setBackgroundColor(Color.parseColor("#3F51B5"));
                         buttonView.setTag(gameStrings[i]);
 
+
+
                         buttonView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                
+                                //view.setTag();
+                                ((MainActivity) main).joinGame(view);
                             }
                         });
 
