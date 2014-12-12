@@ -47,9 +47,10 @@
             android:padding="10dp"
             android:layout_margin="4dp"
             android:text="Sign In"
-            style="@style/DefaultButtonText"
-            android:background="@drawable/button_default_bg"
-            />
+            android:background="@color/primary"
+            android:textColor="#FFFFFF"
+            style="@style/DefaultButtonText"/>
+            <!--android:background="@drawable/button_default_bg"-->
     </LinearLayout>
 
 </RelativeLayout>

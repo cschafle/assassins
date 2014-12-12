@@ -97,7 +97,9 @@
             android:onClick="createGame"
             android:layout_weight="1"
             android:text="Create"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            android:background="@color/primary"
+            android:textColor="#FFFFFF"/>
 
         <!--Button
             android:layout_width="0dp"
@@ -114,7 +116,9 @@
             android:layout_weight="1"
             android:id="@+id/statusBtn"
             android:text="Status"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            android:background="@color/primary"
+            android:textColor="#FFFFFF"/>
 
 
         <Button
@@ -123,7 +127,9 @@
             android:layout_weight="1"
             android:onClick="logout"
             android:text="Logout"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            android:background="@color/primary"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -131,7 +137,9 @@
             android:layout_weight="1"
             android:text="Toq"
             android:textSize="12dp"
-            android:onClick="installToq"/>
+            android:onClick="installToq"
+            android:background="@color/primary"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 
