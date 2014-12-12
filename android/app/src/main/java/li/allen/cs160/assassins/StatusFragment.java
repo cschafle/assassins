@@ -94,6 +94,33 @@ public class StatusFragment extends Fragment {
             layout = inflater.inflate(R.layout.fragment_status_win, container, false);
             handler.removeCallbacks(runnable);
 
+            ParseQuery<ParseUser> queryUser = ParseUser.getQuery();
+            queryUser.whereEqualTo("killPending", currentUser.getUsername());
+
+            currentUser.put("available", true);
+            currentUser.put("game", "");
+            currentUser.saveInBackground();
+
+            ArrayList<String> killsPending2 = (ArrayList<String>) currGame.get("killsPending");
+            killsPending2.remove(currentUser.getUsername());
+            currGame.put("killsPending", killsPending2);
+            ArrayList<String> players2 = (ArrayList<String>) currGame.get("playerList");
+
+            int currUserIndex = players2.indexOf(currentUser.getUsername());
+            String killer;
+            if (currUserIndex+1 == players2.size() ) {
+                killer = players2.get(0);
+            }
+            else {
+                killer = players2.get(currUserIndex+1);
+            }
+            ParseQuery pushQuery = ParseInstallation.getQuery();
+            pushQuery.whereEqualTo("user", killer);
+
+            players2.remove(currentUser.getUsername());
+            currGame.put("playerList", players2);
+            currGame.saveInBackground();
+
 
             return layout;
         }
@@ -187,7 +214,7 @@ public class StatusFragment extends Fragment {
 
 
       /* and here comes the "trick" */
-            handler.postDelayed(this, 5000);
+            handler.postDelayed(this, 2000);
         }
     };
 

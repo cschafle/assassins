@@ -369,6 +369,13 @@ public class MainActivity extends Activity {
         });
     }
 
+    public void goHome(View view) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        HomeFragment home = new HomeFragment();
+        fragmentTransaction.replace(R.id.container, home, "home");
+        fragmentTransaction.commit();
+    }
+
     //Install Toq Application
     public void installToq(View view) {
         install();
@@ -505,28 +512,28 @@ public class MainActivity extends Activity {
 //        LayoutInflater inflater = alertDialog.getLayoutInflater();
 //        View dialoglayout = inflater.inflate(R.layout.report_kill, frameView);
 //        alertDialog.show();
-//
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
-//        query.whereEqualTo("gameName", currentUser.get("game"));
-//        query.findInBackground(new FindCallback<ParseObject>() {
-//            @Override
-//            public void done(List<ParseObject> parseObjects, ParseException e) {
-//                ParseObject game = parseObjects.get(0);
-//                ArrayList<String> killsPending = (ArrayList<String>) game.get("killsPending");
-//                if (killsPending == null || killsPending.size() == 0) {
-//                    ArrayList<String> temp = new ArrayList<String>();
-//                    temp.add(targetNameText.getText().toString());
-//                    killsPending = temp;
-//                }
-//                else {
-//                    killsPending.add(targetNameText.getText().toString());
-//                }
-//                game.put("killsPending", killsPending);
-//                game.saveInBackground();
-//            }
-//        });
-//        currentUser.put("killPending", targetNameText.getText().toString());
-//        currentUser.saveInBackground();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+        query.whereEqualTo("gameName", currentUser.get("game"));
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                ParseObject game = parseObjects.get(0);
+                ArrayList<String> killsPending = (ArrayList<String>) game.get("killsPending");
+                if (killsPending == null || killsPending.size() == 0) {
+                    ArrayList<String> temp = new ArrayList<String>();
+                    temp.add(targetNameText.getText().toString());
+                    killsPending = temp;
+                }
+                else {
+                    killsPending.add(targetNameText.getText().toString());
+                }
+                game.put("killsPending", killsPending);
+                game.saveInBackground();
+            }
+        });
+        currentUser.put("killPending", targetNameText.getText().toString());
+        currentUser.saveInBackground();
 
         ParseQuery pushQuery = ParseInstallation.getQuery();
         //REMEMBER TO CHANGE THE TARGET TO TARGETNAMETEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -570,8 +577,9 @@ public class MainActivity extends Activity {
 
 
     //Join game from games where user has been invited
-    public void joinGame(View view) {
-        final View view2 = view;
+    public void joinGame(String name) {
+        //final View view2 = view;
+        final String name2 = name;
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username", currentUser.getUsername());
@@ -582,8 +590,8 @@ public class MainActivity extends Activity {
                     ParseUser user = users.get(0);
                     if ((Boolean) user.get("available")) {
                         user.put("available", false);
-                        Log.d("MainActivity, joinGame", (String) view2.getTag());
-                        user.put("game", view2.getTag());
+                        //Log.d("MainActivity, joinGame", (String) view2.getTag());
+                        user.put("game", name2);//view2.getTag());
                         user.put("kills", 0);
                         user.saveInBackground(new SaveCallback() {
                             @Override

@@ -9,7 +9,6 @@
         android:textSize="30dp"
         android:padding="10dip"
         />
-
     <View
         android:layout_height="2dip"
         android:background="@android:color/black" />
@@ -99,7 +98,7 @@
     <!-- 2 columns -->
     <TableRow
         android:id="@+id/tableRow4"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="5dip" >
         <TextView
@@ -110,18 +109,12 @@
             android:textSize="20dp"/>
 
         <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:layout_height="225dp"
             android:id="@+id/playersList"
             android:choiceMode="multipleChoice">
 
         </ListView>
-
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            >
-        </ScrollView>
 
     </TableRow>
 
@@ -149,6 +142,8 @@
             android:text="Create"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
+
 
 </TableLayout>

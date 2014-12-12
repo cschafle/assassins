@@ -61,33 +61,43 @@ public class HomeFragment extends Fragment {
         /* do what you need to do */
         final ParseUser currentUser = ParseUser.getCurrentUser();
         TextView home = (TextView) layout.findViewById(R.id.home);
-        home.setText("Welcome " + currentUser.getUsername());
+        if (currentUser == null) {
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
-        query.whereEqualTo("started", false);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-            if (e == null) {
-                ArrayList<String> gameStringArray = new ArrayList<String>();
-                for (int i = 0; i < objects.size(); i++) {
-                    ParseObject game = objects.get(i);
-                    ArrayList<String> users = (ArrayList<String>) game.get("playerList");
-                    if (users != null && users.size() > 0) {
-                        if (users.contains(currentUser.getUsername())) {
-                            String gameName = game.get("gameName").toString();
-                            gameStringArray.add(gameName);
+        }
+        else {
+            home.setText("Welcome " + currentUser.getUsername());
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Game");
+            query.whereEqualTo("started", false);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if (e == null) {
+                        ArrayList<String> gameStringArray = new ArrayList<String>();
+                        for (int i = 0; i < objects.size(); i++) {
+                            ParseObject game = objects.get(i);
+                            ArrayList<String> users = (ArrayList<String>) game.get("playerList");
+                            if (users != null && users.size() > 0) {
+                                if (users.contains(currentUser.getUsername())) {
+                                    String gameName = game.get("gameName").toString();
+                                    gameStringArray.add(gameName);
+                                }
+                            }
                         }
-                    }
-                }
-                String[] gameStrings;
-                if (gameStringArray.size() == 0) {
-                    LinearLayout gameList = (LinearLayout) layout.findViewById(R.id.gameList);
-                    gameList.removeAllViews();
+                        String[] gameStrings;
+                        if (gameStringArray.size() == 0) {
+//                            LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameName).getLayoutParams();
+//                            LinearLayout gameList = (LinearLayout) layout.findViewById(R.id.gameList);
+////                           gameList.removeAllViews();
+//
+//
+//                            TextView textView = new TextView(layout.getContext());
+//                            textView.setLayoutParams(textParams);
+//                            textView.setText("No Games Available");
 
-                    LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameName).getLayoutParams();
-                    TextView textView = new TextView(layout.getContext());
-                    textView.setLayoutParams(textParams);
-                    textView.setText("No Games Available");
+                            TextView noGames = (TextView) layout.findViewById(R.id.gameName);
+                            noGames.setText("No Games Available");
+                            Button gameButton = (Button) layout.findViewById(R.id.gameButton);
+                            gameButton.setVisibility(View.INVISIBLE);
 //                    gameStrings = new String[1];
 //                    gameCount = 0;
 //                    gameStringArray.add("No games available");
@@ -97,61 +107,72 @@ public class HomeFragment extends Fragment {
 //                    ListView listView = (ListView) layout.findViewById(R.id.gameList);
 //                    listView.setAdapter(adapter);
 //                    listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
-                }
-                else if (gameCount != gameStringArray.size()) {
-                    gameCount = gameStringArray.size();
-                    gameStrings = new String[gameStringArray.size()];
-                    gameStrings = gameStringArray.toArray(gameStrings);
-
-                    LinearLayout gameList = (LinearLayout) layout.findViewById(R.id.gameList);
-                    //gameList.removeAllViews();
-
-                    LinearLayout.LayoutParams containerParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameItem).getLayoutParams();
-                    LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameName).getLayoutParams();
-                    LinearLayout.LayoutParams buttonParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameButton).getLayoutParams();
-
-                    int i;
-                    for (i=0; i<gameCount; i++) {
-                        //Log.d("Iteration" + i, "Iteration" + i);
-                        if (i == 0) {
-                            TextView textView = (TextView) layout.findViewById(R.id.gameName);
-                            textView.setText(gameStrings[i]);
-
-                            Button buttonView = (Button) layout.findViewById(R.id.gameButton);
-                            buttonView.setTag(gameStrings[i]);
-                            continue;
                         }
+                        else if (gameCount != gameStringArray.size()) {
+                            gameCount = gameStringArray.size();
+                            gameStrings = new String[gameStringArray.size()];
+                            gameStrings = gameStringArray.toArray(gameStrings);
 
-                        LinearLayout container = new LinearLayout(layout.getContext());
-                        container.setLayoutParams(containerParams);
+                            LinearLayout gameList = (LinearLayout) layout.findViewById(R.id.gameList);
+                            //gameList.removeAllViews();
 
-                        TextView textView = new TextView(layout.getContext());
-                        textView.setLayoutParams(textParams);
-                        textView.setText(gameStrings[i]);
-                        container.addView(textView);
+                            LinearLayout.LayoutParams containerParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameItem).getLayoutParams();
+                            LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameName).getLayoutParams();
+                            LinearLayout.LayoutParams buttonParams = (LinearLayout.LayoutParams) layout.findViewById(R.id.gameButton).getLayoutParams();
 
-                        Button buttonView = new Button(layout.getContext());
-                        buttonView.setLayoutParams(buttonParams);
-                        buttonView.setText("Join");
-                        buttonView.setTextColor(Color.WHITE);
-                        buttonView.setBackgroundColor(Color.parseColor("#3F51B5"));
-                        buttonView.setTag(gameStrings[i]);
+                            int i;
+                            for (i=0; i<gameCount; i++) {
+                                //Log.d("Iteration" + i, "Iteration" + i);
+                                if (i == 0) {
+                                    TextView textView = (TextView) layout.findViewById(R.id.gameName);
+                                    textView.setText(gameStrings[i]);
+
+                                    Button buttonView = (Button) layout.findViewById(R.id.gameButton);
+                                    buttonView.setVisibility(View.VISIBLE);
+                                    buttonView.setTag(gameStrings[i]);
+
+                                    buttonView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            //view.setTag();
+                                            Log.d("HOME FRAGMENT", (String)view.getTag());
+                                            String gameName = (String) view.getTag();
+                                            ((MainActivity) main).joinGame(gameName);
+                                        }
+                                    });
+                                    continue;
+                                }
+
+                                LinearLayout container = new LinearLayout(layout.getContext());
+                                container.setLayoutParams(containerParams);
+
+                                TextView textView = new TextView(layout.getContext());
+                                textView.setLayoutParams(textParams);
+                                textView.setText(gameStrings[i]);
+                                container.addView(textView);
+
+                                Button buttonView = new Button(layout.getContext());
+                                buttonView.setLayoutParams(buttonParams);
+                                buttonView.setText("Join");
+                                buttonView.setTextColor(Color.WHITE);
+                                buttonView.setBackgroundColor(Color.parseColor("#3F51B5"));
+                                buttonView.setTag(gameStrings[i]);
 
 
 
-                        buttonView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                //view.setTag();
-                                ((MainActivity) main).joinGame(view);
+                                buttonView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        //view.setTag();
+                                        ((MainActivity) main).joinGame((String) view.getTag());
+                                    }
+                                });
+
+
+                                container.addView(buttonView);
+
+                                gameList.addView(container);
                             }
-                        });
-
-
-                        container.addView(buttonView);
-
-                        gameList.addView(container);
-                    }
 
 
 
@@ -160,14 +181,16 @@ public class HomeFragment extends Fragment {
 //                    ListView listView = (ListView) layout.findViewById(R.id.gameList);
 //                    listView.setAdapter(adapter);
 //                    listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                        }
+                    } else {
+                        Log.d("score", "Error: " + e.getMessage());
+                    }
                 }
-            } else {
-                Log.d("score", "Error: " + e.getMessage());
-            }
-            }
-        });
+            });
       /* and here comes the "trick" */
-            handler.postDelayed(this, 2000);
+            handler.postDelayed(this, 1000);
+        }
+
         }
     };
 
