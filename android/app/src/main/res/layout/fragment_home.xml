@@ -99,7 +99,9 @@
             android:text="Create"
             android:textSize="12dp"
             android:background="@color/primary"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
 
         <!--Button
             android:layout_width="0dp"
@@ -118,7 +120,9 @@
             android:text="Status"
             android:textSize="12dp"
             android:background="@color/primary"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
 
 
         <Button
@@ -129,7 +133,9 @@
             android:text="Logout"
             android:textSize="12dp"
             android:background="@color/primary"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -139,7 +145,9 @@
             android:textSize="12dp"
             android:onClick="installToq"
             android:background="@color/primary"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
 
     </LinearLayout>
 
