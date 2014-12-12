@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="4dp"
+            android:onClick="signUp"
             android:text="Sign Up"
             style="@style/DefaultButtonText"
             android:background="@drawable/button_default_bg"
