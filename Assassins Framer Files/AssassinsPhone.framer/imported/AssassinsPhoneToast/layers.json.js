@@ -1,0 +1,28 @@
+window.__imported__ = window.__imported__ || {};
+window.__imported__["AssassinsPhoneToast/layers.json.js"] = [
+	{
+		"id": 3,
+		"name": "Toast",
+		"layerFrame": {
+			"x": 0,
+			"y": 0,
+			"width": 788,
+			"height": 150
+		},
+		"maskFrame": null,
+		"image": {
+			"path": "images/Toast.png",
+			"frame": {
+				"x": 18,
+				"y": 12,
+				"width": 751,
+				"height": 122
+			}
+		},
+		"imageType": "png",
+		"children": [
+			
+		],
+		"modification": "1644594129"
+	}
+]
