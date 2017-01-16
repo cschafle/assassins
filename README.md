@@ -15,5 +15,6 @@ acticity. We hope that this application allows individuals to get to know one an
 fun and unique way. 
 
 Full video showing tasks and in context usage of application: https://youtu.be/mJV4Ef67vig
+(Apologizes, the first 20 seconds of this video is just sound)
 
 Toq Watch notification task: https://youtu.be/a6ClSE9dnYg
